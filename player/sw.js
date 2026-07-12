@@ -6,7 +6,7 @@
  * satisfied by slicing the cached body and answering 206 — required on
  * iOS Safari, which refuses media that ignores its Range headers.
  */
-const VERSION = 'p2a-v2';
+const VERSION = 'p2a-v3';
 const CORE = ['./', 'index.html', 'site.json', 'manifest.webmanifest', 'icon.png'];
 
 self.addEventListener('install', (e) => {

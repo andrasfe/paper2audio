@@ -47,18 +47,18 @@
       "slug": "06-case-study-1-qaoa-portfolio-selection",
       "title": "Case study one: QAOA and portfolio selection",
       "audio": "audio/06-case-study-1-qaoa-portfolio-selection.mp3",
-      "duration": 655.4,
+      "duration": 1245.3,
       "cues": [
         {
-          "t": 202.5,
+          "t": 575.6,
           "fig": "fig2_headline"
         },
         {
-          "t": 299.9,
+          "t": 686.8,
           "fig": "fig1_trajectory"
         },
         {
-          "t": 495.5,
+          "t": 887.1,
           "fig": "fig_scaling"
         }
       ]
@@ -68,10 +68,10 @@
       "slug": "07-case-study-2-qae-tail-risk",
       "title": "Case study two: amplitude estimation for tail risk",
       "audio": "audio/07-case-study-2-qae-tail-risk.mp3",
-      "duration": 559.9,
+      "duration": 1013.8,
       "cues": [
         {
-          "t": 306.6,
+          "t": 726.0,
           "fig": "fig_qae_frontier"
         }
       ]
@@ -81,10 +81,10 @@
       "slug": "08-case-study-3-quantum-mcmc",
       "title": "Case study three: quantum-enhanced MCMC",
       "audio": "audio/08-case-study-3-quantum-mcmc.mp3",
-      "duration": 444.1,
+      "duration": 716.9,
       "cues": [
         {
-          "t": 284.3,
+          "t": 471.8,
           "fig": "fig_qmcmc"
         }
       ]

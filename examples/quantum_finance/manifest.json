@@ -63,7 +63,7 @@
       "slug": "06-case-study-1-qaoa-portfolio-selection",
       "title": "Case study one: QAOA and portfolio selection",
       "brief": "The portfolio-selection QUBO, how QAOA works, the fixed-angle protocol and angle concentration, the crisis-hardness hypothesis and its reversal with all headline numbers, the controls, self-averaging, the concentration-hardness trade-off, scaling exponents, the FF100 extension, transfer-gate failure, and the frozen verdict.",
-      "words": 1787,
+      "words": 3509,
       "source": "sections/06-case-study-1-portfolio-selection-qubos-and-qaoa.txt",
       "script": "scripts/06-case-study-1-qaoa-portfolio-selection.txt",
       "audio": "audio/06-case-study-1-qaoa-portfolio-selection.mp3"
@@ -73,7 +73,7 @@
       "slug": "07-case-study-2-qae-tail-risk",
       "title": "Case study two: amplitude estimation for tail risk",
       "brief": "VaR/CVaR and Monte Carlo's inverse-square law, how amplitude estimation achieves 1/epsilon, the verification layers (Student-t model, Kupiec backtest, discretization gate, 18-qubit end-to-end oracle), the observed epsilon^-1.03 vs epsilon^-2.00 scaling, resource counts and the frontier, the workload-selection criterion, the nested-XVA cells, and the verdict.",
-      "words": 1583,
+      "words": 2881,
       "source": "sections/07-case-study-2-qae-for-tail-risk.txt",
       "script": "scripts/07-case-study-2-qae-tail-risk.txt",
       "audio": "audio/07-case-study-2-qae-tail-risk.mp3"
@@ -83,7 +83,7 @@
       "slug": "08-case-study-3-quantum-mcmc",
       "title": "Case study three: quantum-enhanced MCMC",
       "brief": "Metropolis-Hastings and spectral gaps, the quantum proposal and why noise only slows it, the exact transition-matrix design, the v1 positive-control failure and the intensive-temperature amendment, the 7x exponent advantage on spin glasses, the finance null, scale mismatch, and the bridging experiment.",
-      "words": 1185,
+      "words": 1994,
       "source": "sections/08-case-study-3-quantum-enhanced-mcmc.txt",
       "script": "scripts/08-case-study-3-quantum-mcmc.txt",
       "audio": "audio/08-case-study-3-quantum-mcmc.mp3"
