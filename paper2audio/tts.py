@@ -1,9 +1,15 @@
 """Text-to-speech synthesis without system binaries.
 
-Uses the espeak-ng shared library shipped in the `espeakng-loader`
-PyPI wheel (no apt/espeak install needed), driven via ctypes in
-retrieval mode so raw PCM is collected in-process, then encoded to MP3
-with `lameenc`. Works fully offline.
+Two engines, both fully offline and pip-installable:
+
+- "piper" (default when available): the Piper neural TTS engine
+  (`piper-tts`) with the en_US-joe-medium voice bundled in the
+  `joe-us-piper-voice` PyPI wheel — natural, non-robotic speech.
+- "espeak": the espeak-ng shared library shipped in the
+  `espeakng-loader` wheel, driven via ctypes in retrieval mode —
+  tiny and robust, but formant-synthesized (robotic).
+
+Raw PCM is collected in-process and encoded to MP3 with `lameenc`.
 """
 from __future__ import annotations
 
@@ -100,6 +106,67 @@ def get_synthesizer(
     return inst
 
 
+class PiperSynthesizer:
+    """Neural TTS via piper-tts. `model` is a path to a Piper .onnx
+    voice; None auto-uses the bundled en_US-joe-medium voice from the
+    joe-us-piper-voice package."""
+
+    _cache: dict = {}
+
+    def __init__(self, model: str | None = None, length_scale: float | None = None):
+        from piper import PiperVoice
+
+        if model is None:
+            import joe_us_piper_voice as jv
+
+            mp = jv.model_path() if callable(jv.model_path) else jv.model_path
+            model = str(mp)
+        key = model
+        if key not in PiperSynthesizer._cache:
+            PiperSynthesizer._cache[key] = PiperVoice.load(model)
+        self.voice = PiperSynthesizer._cache[key]
+        self.sample_rate = self.voice.config.sample_rate
+        self.length_scale = length_scale
+
+    def synth_chunks(self, chunks: list[str], progress=None) -> bytes:
+        import io
+
+        pcm = bytearray()
+        for i, chunk in enumerate(chunks):
+            buf = io.BytesIO()
+            with wave.open(buf, "wb") as w:
+                if self.length_scale is not None:
+                    from piper import SynthesisConfig
+
+                    self.voice.synthesize_wav(
+                        chunk, w,
+                        syn_config=SynthesisConfig(length_scale=self.length_scale),
+                    )
+                else:
+                    self.voice.synthesize_wav(chunk, w)
+            with wave.open(io.BytesIO(buf.getvalue())) as w:
+                pcm += w.readframes(w.getnframes())
+            pcm += b"\x00" * int(self.sample_rate * 0.35) * 2
+            if progress:
+                progress(i + 1, len(chunks), len(pcm))
+        return bytes(pcm)
+
+
+def available_engines() -> list[str]:
+    out = []
+    try:
+        import piper, joe_us_piper_voice  # noqa: F401
+        out.append("piper")
+    except ImportError:
+        pass
+    try:
+        import espeakng_loader  # noqa: F401
+        out.append("espeak")
+    except ImportError:
+        pass
+    return out
+
+
 def split_paragraphs(text: str, max_chars: int = 4000) -> list[str]:
     """Split narration into paragraph chunks, further splitting any
     paragraph that exceeds max_chars at sentence boundaries."""
@@ -148,13 +215,27 @@ def pcm_to_mp3(
 def text_to_mp3(
     text: str,
     out_path: str | pathlib.Path,
+    engine: str = "auto",
     voice: str = "en-us",
     rate_wpm: int = 165,
     bitrate_kbps: int = 64,
+    model: str | None = None,
     progress=None,
 ) -> float:
-    """Full pipeline: narration text -> MP3 file. Returns duration in seconds."""
-    synth = get_synthesizer(voice=voice, rate_wpm=rate_wpm)
+    """Full pipeline: narration text -> MP3 file. Returns duration in seconds.
+
+    engine: "piper" (neural), "espeak" (formant), or "auto" (piper if
+    installed, else espeak). For piper, `voice`/`rate_wpm` are ignored
+    and `model` optionally points at a custom .onnx voice.
+    """
+    if engine == "auto":
+        engine = (available_engines() or ["espeak"])[0]
+    if engine == "piper":
+        synth = PiperSynthesizer(model=model)
+    elif engine == "espeak":
+        synth = get_synthesizer(voice=voice, rate_wpm=rate_wpm)
+    else:
+        raise ValueError(f"unknown TTS engine {engine!r}")
     chunks = split_paragraphs(text)
     pcm = synth.synth_chunks(chunks, progress=progress)
     pcm_to_mp3(pcm, synth.sample_rate, out_path, bitrate_kbps)

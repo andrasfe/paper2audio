@@ -8,10 +8,8 @@ architecture, the results (figures and tables described in words), the
 contributions, and the shortcomings — so you can genuinely learn the paper
 by ear, e.g. on a flight.
 
-**Live demo (offline-capable PWA):** https://andrasfe.github.io/paper2audio/ —
-a 52-minute walkthrough of a quantum-finance feasibility paper. Open it once
-online, wait for the "available offline" badge, add it to your home screen,
-and it works in airplane mode.
+> This directory is self-contained and designed to be extracted into its
+> own repository later. It has no dependencies on the rest of this repo.
 
 ## Design: one MP3 per paper section
 
@@ -103,8 +101,8 @@ pipeline.concat("project/", "talk.mp3")
 
 ## Example: the quantum-finance case-studies paper
 
-`examples/quantum_finance/` is a complete project for the qbrain quantum-finance
-feasibility paper (IEEE LaTeX source): a ~52-minute, 7,420-word
+`examples/quantum_finance/` is a complete project for this repository's
+`paper/quantum_finance_case_studies.tex`: a ~52-minute, 7,420-word
 novice-level walkthrough in ten chapters (two primer chapters were added
 by hand-editing the manifest — the intended workflow). The per-section
 MP3s are committed; rebuild any chapter or the full talk offline:
@@ -130,10 +128,6 @@ project's per-section MP3s in the browser:
   afterwards.
 - Auto-advance between chapters, playback speed cycling, lock-screen
   controls via the Media Session API.
-- **Fully offline (PWA)**: a service worker precaches the app shell and
-  every audio/figure asset on first load (~27 MB) and answers audio
-  Range requests with 206 slices of the cached body, so playback *and
-  seeking* work with no network — including as an iOS home-screen app.
 
 The repository's GitHub Actions workflow (`.github/workflows/pages.yml`)
 assembles the player + the quantum-finance example into a static site and
@@ -158,9 +152,13 @@ See `examples/quantum_finance/site.json` for the shape.
   macros pass through raw (which the LLM handles fine). PDF section
   splitting is heuristic (numbered headings) and falls back to a single
   section.
-- espeak-ng is a formant synthesizer: robust, tiny, fully offline, but
-  robotic compared to neural TTS. `tts.py` isolates the backend so a
-  neural engine (Kokoro, Piper) can be dropped in where network/GPU
-  allows. Note espeak-ng can only be initialized once per process
-  (`tts.get_synthesizer()` handles this).
+- Two offline TTS engines: **piper** (neural, natural-sounding; default
+  when `pip install .[neural]` is present — uses the en_US-joe-medium
+  voice bundled in the `joe-us-piper-voice` wheel, or any Piper `.onnx`
+  via the manifest's `tts.model`) and **espeak** (formant, tiny,
+  robotic — the fallback). Select via `tts.engine` in `manifest.json`
+  (`auto`/`piper`/`espeak`). Note espeak-ng can only be initialized
+  once per process (`tts.get_synthesizer()` handles this).
+- When section audio changes, bump `VERSION` in `player/sw.js` so
+  installed PWAs re-download the updated cache.
 - MP3s are mono 22.05 kHz, ~0.5 MB/min at the default 64 kbps.

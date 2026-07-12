@@ -75,7 +75,7 @@ def plan(
     manifest = {
         "paper": "paper.txt",
         "paper_source": str(paper),
-        "tts": {"voice": "en-us", "rate": 165, "bitrate": 64},
+        "tts": {"engine": "auto", "voice": "en-us", "rate": 165, "bitrate": 64},
         "sections": sections,
     }
     save_manifest(project, manifest)
@@ -150,9 +150,11 @@ def synth_sections(
         text = script_path.read_text(encoding="utf-8")
         dur = tts.text_to_mp3(
             text, project / s["audio"],
+            engine=cfg.get("engine", "auto"),
             voice=cfg.get("voice", "en-us"),
             rate_wpm=cfg.get("rate", 165),
             bitrate_kbps=cfg.get("bitrate", 64),
+            model=cfg.get("model"),
         )
         log(f"  wrote {s['audio']} ({dur / 60:.1f} min)")
 

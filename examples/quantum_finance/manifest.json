@@ -4,7 +4,8 @@
   "tts": {
     "voice": "en-us",
     "rate": 165,
-    "bitrate": 64
+    "bitrate": 64,
+    "engine": "piper"
   },
   "sections": [
     {

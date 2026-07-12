@@ -18,6 +18,7 @@ dependencies = [
 
 [project.optional-dependencies]
 openai = ["openai>=1.40"]
+neural = ["piper-tts>=1.4", "joe-us-piper-voice"]
 
 [project.scripts]
 paper2audio = "paper2audio.cli:main"
