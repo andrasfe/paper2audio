@@ -1,0 +1,70 @@
+For the typical financial optimization use case, our evidence indicates
+QAOA is the wrong tool for a structural reason, not an engineering one:
+data-driven financial QUBOs are self-averaging---instance-to-
+instance fluctuations shrink with size, typical instances are alike and
+benign, and the heterogeneous, glassy structure that quantum
+optimizers would need does not survive aggregation, least of all in
+crises, which homogenize the dependence structure and make the
+problems easier. Where residual hardness does appear (calm
+periods, wide universes), classical annealing retains a decisive
+scaling edge and the fixed-angle protocol fails its transfer gates.
+
+This does not mean quantum computing will not be practical---in finance
+or elsewhere. Two of our three case studies produced genuinely
+quantum-favorable measurements: the QAE quadratic speedup observed
+end-to-end on a data-calibrated oracle, and a $7\times$ mixing-exponent
+advantage for quantum-enhanced MCMC on cold rugged landscapes,
+reproduced under gates from independent hardware evidence. What our
+program shows is that practicality is a workload-selection
+problem with measurable acceptance criteria: per-scenario classical
+cost exceeding $\sim$$10^{5}\times$ vectorized arithmetic for
+estimation workloads; genuinely non-self-averaging, pool-scale rugged
+structure for optimization and sampling workloads; and overlap between
+the sizes where quantum methods can be validated and the sizes where
+the target problem is hard. Financial workloads that clear these
+screens were not found among the standard candidates tested here---but
+the screens themselves, and the validated measurement machinery behind
+them, are the constructive product: they tell practitioners exactly
+what to measure before spending a dollar of quantum hardware time, and
+they will identify the first genuine application if and when one
+exists.
+
+Reproducibility:  All data (public, committed), code,
+pre-registrations, checkpointed results ($\sim$700 cells/instances
+across five studies), and amendment history are in the accompanying
+repository; no QPU seconds were consumed.
+
+REFERENCES
+
+-  E. Farhi, J. Goldstone, and S. Gutmann, ``A quantum
+approximate optimization algorithm,'' arXiv:1411.4028 (2014).
+
+-  R. Shaydulin et al., ``Evidence of
+scaling advantage for the quantum approximate optimization algorithm on
+a classically intractable problem,'' Sci.\ Adv. 10,
+eadm6761 (2024).
+
+-  S. Woerner and D. J. Egger, ``Quantum risk
+analysis,'' npj Quantum Inf. 5, 15 (2019).
+
+-  D. Grinko, J. Gacon, C. Zoufal, and S. Woerner,
+``Iterative quantum amplitude estimation,'' npj Quantum Inf.
+7, 52 (2021).
+
+-  S. Chakrabarti et al., ``A threshold
+for quantum advantage in derivative pricing,'' Quantum
+5, 463 (2021).
+
+-  R. Babbush et al., ``Focus beyond
+quadratic speedups for error-corrected quantum advantage,'' \emph{PRX
+Quantum} 2, 010103 (2021).
+
+-  D. Layden et al., ``Quantum-enhanced Markov
+chain Monte Carlo,'' Nature 619, 282 (2023).
+
+-  B. Samanta et al., ``Parametric QUBO
+formulations for feature selection,'' AAAI Fall Symposium Series
+(2025).
+
+-  qbrain, ``QAOA feature selection on IBM
+hardware, judged by the retrained model,'' technical report (2026).

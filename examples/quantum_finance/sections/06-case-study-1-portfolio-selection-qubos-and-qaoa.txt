@@ -1,0 +1,96 @@
+-- Does crisis create hardness? No---the reverse --
+
+Across 114 pre-registered cells on the 49-industry universe, every
+hardness indicator moves opposite to the crisis-ruggedization
+hypothesis (Table [tab:regime], Fig. [fig:traj]): SA reaches
+the certified optimum $12$--$1000\times$ faster on crisis windows,
+trained QAOA angles concentrate $2$--$3\times$ tighter, and descent
+landscapes carry up to $20\times$ fewer local minima. Controls
+attribute the mechanism: permuting coupling values (preserving their
+histogram) preserves hardness, while destroying cross-dependence
+removes it---so hardness lives in the \emph{heterogeneity of the
+coupling distribution}, which a crisis destroys as all correlations
+converge on the market factor (off-diagonal coefficient of variation
+$0.17\!\to\!0.06$). Self-averaging probes show optimum-energy
+fluctuations shrinking with size everywhere: the ensembles are
+statistically homogeneous, with no spin-glass signature.
+
+[table]
+
+CAPTION: {Headline windows, 49-industry universe, DC variant (pool 32,
+$k{=}12$). $\sigma_{p2}$: circular std.\ of trained QAOA angles
+(low = transferable).}
+
+[tabular]
+{lcccc}
+
+window & regime & $\sigma_{p2}$ & SA $\tts$ & local minima
+
+calm 2006 & calm & 1.47 & $1.6\times10^{6}$ & 3970
+
+calm 2019 & calm & 1.04 & $2.4\times10^{6}$ & 3972
+
+GFC 2008 & crisis & 0.48 & $1.3\times10^{5}$ & 3934
+
+COVID 2020 & crisis & 0.72 & $\mathbf{2.4\times10^{3}}$ & 816
+
+[end tabular]
+
+[end table]
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig1_trajectory.png}
+CAPTION: {Rolling 126-day windows: QAOA angle concentration (top) vs
+market volatility and mean pairwise correlation (bottom), 2005--2010
+and 2018--2021. Concentration tightens exactly when markets
+correlate---crises simplify the QUBOs.}
+
+[end figure]
+
+-- The concentration--hardness trade-off --
+
+One variable---coupling heterogeneity---controls classical hardness and
+fixed-angle transferability with opposite signs. Calm-period DC
+ensembles are the only classically hard objects in the family, and
+precisely there trained angles sit at the non-concentrating plateau
+($\sigma\approx1.0$--$1.5$), excluding the fixed-angle protocol;
+where angles concentrate (crises), SA solves the instances in
+milliseconds. On matched sub-instances, direct per-instance QAOA
+shots-to-solution scales as $2^{0.87--1.25n}$ versus SA's
+$2^{0.14--0.16n}$: a $5$--$8\times$ exponent deficit
+(Fig. [fig:scaling]).
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig_scaling.png}
+CAPTION: {Scaling exponents with per-seed scatter (dots), medians
+(dashes), and least-squares fits. Left: SA time-to-solution across
+families; the steep FF49-crisis fit is a measurement artifact
+(near-degenerate instances saturate the exact-hit criterion; absolute
+crisis hardness stays tiny), while the FF100-calm family shows genuine
+convex acceleration beyond $n\approx40$. Right: on matched
+FF100-calm instances the QAOA/SA exponent gap narrows to
+$\sim$$1.3\times$---closer than anywhere else in the program, but still
+on the losing side, and without a working transfer protocol.}
+
+[end figure]
+
+-- A richer universe narrows---but does not close---the gap --
+
+On the 100-portfolio (size$\times$value) universe the instances get
+qualitatively harder: convexified certification fails at 600\,s in
+13/16 cells, and SA fails to find calm-window pool-100 optima
+(best-of-1024 lands $1.1$--$1.7%$ high)---while crisis windows stay
+easy, confirming the regime effect at scale. A full-budget
+admissibility study found angle concentration genuinely improved
+($\sigma_{p2}=0.57$--$0.89$) and the QAOA/SA exponent ratio collapsed
+from $5$--$8\times$ to $\sim$$1.3\times$ ($2^{1.01--1.03n}$ vs
+$2^{0.74--0.82n}$)---the first trend in the program pointing
+toward rather than away from an eventual crossover family. But the
+decisive transfer gate failed by $52$--$122\times$: concentration
+across same-size instances did not extend across sizes, so no cheap
+deployment protocol exists, and per-instance training is not a
+protocol. \textbf{Verdict: no QAOA case on financial dependence QUBOs;
+the residual hardness is real but classical methods keep a decisive
+scaling edge wherever it lives.}

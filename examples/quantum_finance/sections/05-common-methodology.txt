@@ -1,0 +1,16 @@
+Data: Kenneth French daily portfolios---49 industries and 100
+size/book-to-market portfolios (10$\times$10), 1926--2026, committed
+with the code. Windows of 126 trading days define instrument ensembles:
+calm (2006, 2019) versus crisis (GFC autumn 2008, COVID spring 2020),
+plus rolling windows for trajectories. All QUBOs use one construction
+(relevance/redundancy form, pool by relevance, soft cardinality with
+calibrated penalty, unit normalization). Classical baselines: Gurobi
+with exact eigenvalue-shift convexification at zero MIP gap
+(certification), vectorized simulated annealing (SA) with
+time-to-solution $\tts$ (sweeps $\times$ restarts to 99% success),
+and replicated vectorized Monte Carlo. Every study's windows, metrics,
+controls, and decision rules were frozen in committed pre-registrations
+before results existed; the few amendments (all pre-result, all
+cost- or artifact-driven) are documented in place, including one
+positive-control gate failure that invalidated and corrected a study
+design (Sec. [sec:cs3]).

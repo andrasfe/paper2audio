@@ -1,0 +1,74 @@
+-- Setup and verification --
+
+Workload: 99% one-day $\cvar$ of the equal-weight 49-industry
+portfolio to $\eps\in\{10,2,0.5\}\bp$, on a one-factor Student-$t$
+model ($\nu\approx4.7$) whose 99% VaR passes a Kupiec coverage
+backtest out-of-sample (2021--2025, $p=0.35$). Registers were sized by
+a discretization-honesty gate (grid bias $<\eps/2$ against a
+$4\times$ finer grid). The oracle (loaders, weighted adder, comparator)
+was simulated end-to-end at an 18-qubit truncation through IQAE against
+exact enumeration: every estimate inside its confidence interval, and
+the measured query scaling was $\eps^{-1.03}$ (quantum) versus
+$\eps^{-2.00}$ (classical MC)---\emph{the quadratic speedup observed
+directly on the data-calibrated oracle}, with quantum already using
+$6\times$ fewer oracle calls than MC samples at $\eps=10^{-3}$.
+Resources were counted two independent ways (analytic vs constructed
+circuit; the $25%$ discrepancy is documented and the smaller count
+used, favoring quantum).
+
+-- The frontier --
+
+[table]
+
+CAPTION: {99% $\cvar$ to 2\,bp. Quantum: optimistic corner
+($p_{\rm phys}{=}10^{-4}$, 100\,ns cycles, 100 T-factories). Classical:
+measured on the identical model.}
+
+[tabular]
+{lccc}
+
+calibration & QAE time / phys.\ qubits & classical (1 core) & GPU$\times$50
+
+full 1990--2019 & 0.43\,h / $8.0\times10^{5}$ & 0.40\,s & 8\,ms
+
+calm 2019 & 0.19\,h / $7.8\times10^{5}$ & 0.16\,s & 3\,ms
+
+COVID 2020 & 0.96\,h / $8.0\times10^{5}$ & 2.8\,s & 56\,ms
+
+[end tabular]
+
+[end table]
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig_qae_frontier.png}
+CAPTION: {QAE wall-clock (band over hardware corners) vs measured
+classical cost per calibration window. The classical slope is steeper
+($1/\eps^2$ vs $1/\eps$), so a crossover exists---at
+$\eps^*\!\sim\!10^{-9}$, five orders beyond risk practice.}
+
+[end figure]
+
+The machine itself is surprisingly plausible---282 logical qubits,
+under $10^{6}$ physical at the optimistic corner---but the classical
+baseline is $0.4$ CPU-seconds (Table [tab:qae],
+Fig. [fig:frontier]): classical wins by $\sim$$5$ orders of
+magnitude at every meaningful precision. The general criterion is
+
+[equation]
+
+\eps < \eps^{*} = \frac{\sigma\,c_{s}}{\kappa\,c_{q}},
+
+[end equation]
+
+where $c_s$/$c_q$ are per-sample/per-oracle-call costs; measured
+$c_q/c_s\approx10^{8}$--$10^{9}$ here. Two nested-simulation cells
+(inner Monte-Carlo repricing of option books) tested the criterion's
+favorable side: neither cleared it---one because pooled European
+baskets are statistically easy inside ($N_{\rm in}\approx200$--$7000$),
+and the pair together showed the verdict is dominated by the inner
+pricing-tolerance convention on premium-heterogeneous books.
+\textbf{Verdict: the speedup is real; standard risk workloads are
+$\sim$$10^{5}\times$ too cheap per scenario for it to matter, and any
+viable QAE application must first exhibit expensive, statistically hard
+inner valuation under a pre-committed tolerance schedule.}

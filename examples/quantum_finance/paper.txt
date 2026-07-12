@@ -1,0 +1,524 @@
+TITLE: Quantum in Finance: Three Case Studies on the Feasibility of
+Quantum Computing for Financial Workloads
+
+[abstract]
+
+We evaluate the feasibility of quantum computing for finance through
+three pre-registered case studies on a century of public market data
+(Kenneth French daily portfolios, 1926--2026), pairing each of three
+quantum algorithms with the financial use case it most plausibly serves:
+(i) the Quantum Approximate Optimization Algorithm (QAOA) for compact
+portfolio selection via dependence-structure QUBOs; (ii) quantum
+amplitude estimation (QAE) for Monte-Carlo tail-risk measurement; and
+(iii) quantum-enhanced Markov chain Monte Carlo (MCMC) for sampling on
+rugged optimization landscapes. Every study uses frozen decision rules,
+certified or measured classical baselines, and adversarial controls.
+The verdicts: (i) QAOA offers no advantage on financial QUBOs---market
+crises simplify the problems rather than hardening them, the
+ensembles are self-averaging, and QAOA's cost scales $1.3$--$8\times$
+worse per variable than simulated annealing exactly where residual
+hardness lives; (ii) QAE's quadratic speedup is real and directly
+observed in simulation (queries $\propto\eps^{-1.03}$ vs Monte Carlo's
+$\eps^{-2.00}$), but standard risk estimates cost under a second
+classically, placing the wall-clock crossover at economically
+meaningless precision; a derived workload-selection criterion shows
+what a viable QAE workload must look like; (iii) quantum-enhanced MCMC
+passes its positive control decisively---a $\sim$$7\times$
+relaxation-exponent advantage on cold random spin glasses, the
+strongest quantum-favorable measurement in the program---but financial
+instances at exactly-verifiable sizes are not rugged enough to benefit.
+We conclude that the typical financial optimization use case is a poor
+QAOA target for a structural reason (self-averaging, homogenizing
+dependence ensembles), while emphasizing that this does not preclude
+practical quantum value: the observed QAE query scaling and the
+validated quantum-MCMC mixing advantage identify the specific workload
+properties---expensive-per-scenario estimation and cold rugged
+landscapes at scale---that a future practical application must exhibit.
+
+[end abstract]
+
+\begin{IEEEkeywords}
+quantum computing, finance, QAOA, amplitude estimation, Markov chain
+Monte Carlo, portfolio optimization, risk management, benchmarking
+\end{IEEEkeywords}
+
+== Introduction ==
+
+Quantum computing is regularly proposed as a future accelerator for
+financial workloads, with portfolio optimization and Monte-Carlo risk
+measurement cited most often. These proposals typically rest on
+asymptotic arguments; whether any advantage survives contact with real
+market data, realistic precision targets, and competent classical
+baselines is an empirical question. Because quantum hardware is not
+ready for commercial use, that question cannot yet be settled by
+deployment---but it can be settled, workload by workload, through
+controlled feasibility studies that measure the quantities on which any
+future advantage must depend: scaling exponents, certified optimality
+gaps, per-operation cost ratios, and precision requirements.
+
+This paper reports three such case studies, executed under a common
+discipline: designs and decision rules frozen in pre-registrations
+before results existed; classical baselines that are certified (exact
+optimization at zero MIP gap) or measured (replicated Monte-Carlo cost)
+rather than assumed; adversarial controls that attribute every effect
+to a mechanism; and honesty clauses that separate what was measured
+(query counts, chain steps, exponents) from what was not (wall-clock
+hardware performance). No quantum hardware time was consumed; all
+quantum objects were simulated exactly or resource-counted from
+verified circuit constructions.
+
+Contributions: (1) a regime-conditional hardness study of data-driven
+financial QUBOs across the 2008 and 2020 crises, refuting---with the
+sign reversed---the hypothesis that crises produce quantum-relevant
+hardness; (2) a verification-gated resource estimate for QAE tail-risk
+measurement on backtested models, with the quadratic speedup observed
+directly and a quantitative workload-selection criterion derived; (3)
+the first application of the quantum-enhanced MCMC proposal to
+finance-derived instances, with its advantage reproduced on controls
+and its inapplicability at verifiable financial sizes explained; and
+(4) a cross-cutting account of why typical financial ensembles
+resist quantum optimization---self-averaging---and what would have to
+be different for practical value to emerge.
+
+== Three Quantum Algorithms ==
+
+-- QAOA --
+
+The Quantum Approximate Optimization Algorithm encodes a quadratic
+unconstrained binary optimization problem (QUBO) into a cost
+Hamiltonian and alternates $p$ layers of cost-phase and mixer
+evolution, controlled by $2p$ angles $(\gamma,\beta)$
+ [ref: farhi2014]. Performance depends entirely on the angles; the
+practical hope is the fixed-angle protocol  [ref: shaydulin2024]:
+on structured problem families, optimal angles concentrate across
+instances and sizes, so they can be trained cheaply on small instances
+and deployed on large ones without per-instance optimization. Whether
+angles concentrate is measurable classically---the circular standard
+deviation $\sigma$ of trained angles across sub-instances---making
+transferability a screenable property  [ref: qbrainfs2026].
+
+-- Quantum amplitude estimation --
+
+QAE estimates an expectation encoded in a quantum amplitude with error
+$\eps$ using $O(1/\eps)$ oracle calls, versus $O(1/\eps^2)$ samples for
+classical Monte Carlo---an unconditional, provably optimal quadratic
+speedup  [ref: woerner2019,grinko2021]. Iterative variants (IQAE) avoid
+phase-estimation overhead. The oracle for a risk workload comprises
+state loaders for the market distribution, fixed-point payoff
+arithmetic, and a comparator; every component has countable
+fault-tolerant cost, so end-to-end feasibility is a resource-estimation
+exercise  [ref: chakrabarti2021,babbush2021].
+
+-- Quantum-enhanced MCMC --
+
+Rather than preparing solutions directly, this family uses a quantum
+circuit as the proposal distribution inside a classical
+Metropolis--Hastings loop  [ref: layden2023]: from state $|x\rangle$,
+evolve under a mixed problem/mixer Hamiltonian, measure to obtain the
+proposal $y$, and accept classically. The proposal is symmetric, so
+detailed balance---and therefore correctness---holds regardless of
+noise; hardware imperfection degrades only the speed. Measured hardware
+evidence exists for a polynomial mixing-time advantage on rugged
+(spin-glass) energy landscapes at low temperature, precisely the regime
+where classical local-move chains freeze.
+
+== Three Financial Use Cases ==
+
+Quantum hardware is not commercially usable today; the value of a
+use-case study is therefore not deployment but selection:
+identifying, with measured constants, which workloads could ever repay
+quantum investment and which never will. The three cases below were
+chosen because each is the canonical pairing for its algorithm, each is
+economically real, and each is testable end-to-end on public data.
+
+-- Compact portfolio selection (QAOA) --
+
+Select $k$ of $n$ assets that are jointly relevant to the market factor
+and minimally redundant---index tracking, hedge-basket construction,
+and feature selection all share this shape. The natural encoding is a
+dependence-structure QUBO built from distance-correlation (DC) or
+mutual-information (MI) matrices  [ref: samanta2025]. It is a good
+quantum testbed because the instance ensemble is generated by the
+market itself and varies with regime: a widely-voiced hypothesis holds
+that crisis-period correlation structure makes these QUBOs rugged and
+classically hard, which would be exactly the opening a quantum
+optimizer needs. Whether that is true had not been measured.
+
+-- Tail-risk measurement (QAE) --
+
+Value-at-Risk and expected shortfall ($\cvar$) are computed by
+Monte-Carlo simulation across the industry, at enormous aggregate
+compute cost. QAE's quadratic speedup applies directly. It is a good
+testbed because everything is quantifiable: the precision a risk desk
+actually needs (basis points), the classical cost (measurable to the
+nanosecond), and the quantum cost (countable to the $T$-gate)---so the
+feasibility question reduces to arithmetic once the constants are
+pinned down on a calibrated, backtested model.
+
+-- Sampling on rugged landscapes (quantum MCMC) --
+
+Wherever finance needs low-temperature samples or near-optimal
+configurations on rugged objective surfaces---combinatorial allocation
+under complex constraints, Bayesian posteriors with multimodal
+structure---classical local-move MCMC freezes. Quantum-enhanced MCMC is
+a good testbed because it is the one candidate whose advantage has
+hardware evidence on the right landscape class, because correctness is
+noise-robust, and because case study 1 supplies naturally-occurring
+financial instances whose hardness is independently certified.
+
+== Common Methodology ==
+
+Data: Kenneth French daily portfolios---49 industries and 100
+size/book-to-market portfolios (10$\times$10), 1926--2026, committed
+with the code. Windows of 126 trading days define instrument ensembles:
+calm (2006, 2019) versus crisis (GFC autumn 2008, COVID spring 2020),
+plus rolling windows for trajectories. All QUBOs use one construction
+(relevance/redundancy form, pool by relevance, soft cardinality with
+calibrated penalty, unit normalization). Classical baselines: Gurobi
+with exact eigenvalue-shift convexification at zero MIP gap
+(certification), vectorized simulated annealing (SA) with
+time-to-solution $\tts$ (sweeps $\times$ restarts to 99% success),
+and replicated vectorized Monte Carlo. Every study's windows, metrics,
+controls, and decision rules were frozen in committed pre-registrations
+before results existed; the few amendments (all pre-result, all
+cost- or artifact-driven) are documented in place, including one
+positive-control gate failure that invalidated and corrected a study
+design (Sec. [sec:cs3]).
+
+== Case Study 1: Portfolio-Selection QUBOs and QAOA ==
+
+-- Does crisis create hardness? No---the reverse --
+
+Across 114 pre-registered cells on the 49-industry universe, every
+hardness indicator moves opposite to the crisis-ruggedization
+hypothesis (Table [tab:regime], Fig. [fig:traj]): SA reaches
+the certified optimum $12$--$1000\times$ faster on crisis windows,
+trained QAOA angles concentrate $2$--$3\times$ tighter, and descent
+landscapes carry up to $20\times$ fewer local minima. Controls
+attribute the mechanism: permuting coupling values (preserving their
+histogram) preserves hardness, while destroying cross-dependence
+removes it---so hardness lives in the \emph{heterogeneity of the
+coupling distribution}, which a crisis destroys as all correlations
+converge on the market factor (off-diagonal coefficient of variation
+$0.17\!\to\!0.06$). Self-averaging probes show optimum-energy
+fluctuations shrinking with size everywhere: the ensembles are
+statistically homogeneous, with no spin-glass signature.
+
+[table]
+
+CAPTION: {Headline windows, 49-industry universe, DC variant (pool 32,
+$k{=}12$). $\sigma_{p2}$: circular std.\ of trained QAOA angles
+(low = transferable).}
+
+[tabular]
+{lcccc}
+
+window & regime & $\sigma_{p2}$ & SA $\tts$ & local minima
+
+calm 2006 & calm & 1.47 & $1.6\times10^{6}$ & 3970
+
+calm 2019 & calm & 1.04 & $2.4\times10^{6}$ & 3972
+
+GFC 2008 & crisis & 0.48 & $1.3\times10^{5}$ & 3934
+
+COVID 2020 & crisis & 0.72 & $\mathbf{2.4\times10^{3}}$ & 816
+
+[end tabular]
+
+[end table]
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig1_trajectory.png}
+CAPTION: {Rolling 126-day windows: QAOA angle concentration (top) vs
+market volatility and mean pairwise correlation (bottom), 2005--2010
+and 2018--2021. Concentration tightens exactly when markets
+correlate---crises simplify the QUBOs.}
+
+[end figure]
+
+-- The concentration--hardness trade-off --
+
+One variable---coupling heterogeneity---controls classical hardness and
+fixed-angle transferability with opposite signs. Calm-period DC
+ensembles are the only classically hard objects in the family, and
+precisely there trained angles sit at the non-concentrating plateau
+($\sigma\approx1.0$--$1.5$), excluding the fixed-angle protocol;
+where angles concentrate (crises), SA solves the instances in
+milliseconds. On matched sub-instances, direct per-instance QAOA
+shots-to-solution scales as $2^{0.87--1.25n}$ versus SA's
+$2^{0.14--0.16n}$: a $5$--$8\times$ exponent deficit
+(Fig. [fig:scaling]).
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig_scaling.png}
+CAPTION: {Scaling exponents with per-seed scatter (dots), medians
+(dashes), and least-squares fits. Left: SA time-to-solution across
+families; the steep FF49-crisis fit is a measurement artifact
+(near-degenerate instances saturate the exact-hit criterion; absolute
+crisis hardness stays tiny), while the FF100-calm family shows genuine
+convex acceleration beyond $n\approx40$. Right: on matched
+FF100-calm instances the QAOA/SA exponent gap narrows to
+$\sim$$1.3\times$---closer than anywhere else in the program, but still
+on the losing side, and without a working transfer protocol.}
+
+[end figure]
+
+-- A richer universe narrows---but does not close---the gap --
+
+On the 100-portfolio (size$\times$value) universe the instances get
+qualitatively harder: convexified certification fails at 600\,s in
+13/16 cells, and SA fails to find calm-window pool-100 optima
+(best-of-1024 lands $1.1$--$1.7%$ high)---while crisis windows stay
+easy, confirming the regime effect at scale. A full-budget
+admissibility study found angle concentration genuinely improved
+($\sigma_{p2}=0.57$--$0.89$) and the QAOA/SA exponent ratio collapsed
+from $5$--$8\times$ to $\sim$$1.3\times$ ($2^{1.01--1.03n}$ vs
+$2^{0.74--0.82n}$)---the first trend in the program pointing
+toward rather than away from an eventual crossover family. But the
+decisive transfer gate failed by $52$--$122\times$: concentration
+across same-size instances did not extend across sizes, so no cheap
+deployment protocol exists, and per-instance training is not a
+protocol. \textbf{Verdict: no QAOA case on financial dependence QUBOs;
+the residual hardness is real but classical methods keep a decisive
+scaling edge wherever it lives.}
+
+== Case Study 2: QAE for Tail Risk ==
+
+-- Setup and verification --
+
+Workload: 99% one-day $\cvar$ of the equal-weight 49-industry
+portfolio to $\eps\in\{10,2,0.5\}\bp$, on a one-factor Student-$t$
+model ($\nu\approx4.7$) whose 99% VaR passes a Kupiec coverage
+backtest out-of-sample (2021--2025, $p=0.35$). Registers were sized by
+a discretization-honesty gate (grid bias $<\eps/2$ against a
+$4\times$ finer grid). The oracle (loaders, weighted adder, comparator)
+was simulated end-to-end at an 18-qubit truncation through IQAE against
+exact enumeration: every estimate inside its confidence interval, and
+the measured query scaling was $\eps^{-1.03}$ (quantum) versus
+$\eps^{-2.00}$ (classical MC)---\emph{the quadratic speedup observed
+directly on the data-calibrated oracle}, with quantum already using
+$6\times$ fewer oracle calls than MC samples at $\eps=10^{-3}$.
+Resources were counted two independent ways (analytic vs constructed
+circuit; the $25%$ discrepancy is documented and the smaller count
+used, favoring quantum).
+
+-- The frontier --
+
+[table]
+
+CAPTION: {99% $\cvar$ to 2\,bp. Quantum: optimistic corner
+($p_{\rm phys}{=}10^{-4}$, 100\,ns cycles, 100 T-factories). Classical:
+measured on the identical model.}
+
+[tabular]
+{lccc}
+
+calibration & QAE time / phys.\ qubits & classical (1 core) & GPU$\times$50
+
+full 1990--2019 & 0.43\,h / $8.0\times10^{5}$ & 0.40\,s & 8\,ms
+
+calm 2019 & 0.19\,h / $7.8\times10^{5}$ & 0.16\,s & 3\,ms
+
+COVID 2020 & 0.96\,h / $8.0\times10^{5}$ & 2.8\,s & 56\,ms
+
+[end tabular]
+
+[end table]
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig_qae_frontier.png}
+CAPTION: {QAE wall-clock (band over hardware corners) vs measured
+classical cost per calibration window. The classical slope is steeper
+($1/\eps^2$ vs $1/\eps$), so a crossover exists---at
+$\eps^*\!\sim\!10^{-9}$, five orders beyond risk practice.}
+
+[end figure]
+
+The machine itself is surprisingly plausible---282 logical qubits,
+under $10^{6}$ physical at the optimistic corner---but the classical
+baseline is $0.4$ CPU-seconds (Table [tab:qae],
+Fig. [fig:frontier]): classical wins by $\sim$$5$ orders of
+magnitude at every meaningful precision. The general criterion is
+
+[equation]
+
+\eps < \eps^{*} = \frac{\sigma\,c_{s}}{\kappa\,c_{q}},
+
+[end equation]
+
+where $c_s$/$c_q$ are per-sample/per-oracle-call costs; measured
+$c_q/c_s\approx10^{8}$--$10^{9}$ here. Two nested-simulation cells
+(inner Monte-Carlo repricing of option books) tested the criterion's
+favorable side: neither cleared it---one because pooled European
+baskets are statistically easy inside ($N_{\rm in}\approx200$--$7000$),
+and the pair together showed the verdict is dominated by the inner
+pricing-tolerance convention on premium-heterogeneous books.
+\textbf{Verdict: the speedup is real; standard risk workloads are
+$\sim$$10^{5}\times$ too cheap per scenario for it to matter, and any
+viable QAE application must first exhibit expensive, statistically hard
+inner valuation under a pre-committed tolerance schedule.}
+
+== Case Study 3: Quantum-Enhanced MCMC ==
+
+-- Design, and a gate that worked --
+
+For instance sizes $n\le12$ the full $2^{n}\times2^{n}$ transition
+matrix of each chain is computed exactly: quantum proposal
+(averaged $|\langle y|e^{-iHt}|x\rangle|^{2}$ over randomized
+$(\gamma,t)$), single-flip, uniform, and random-$k$-flip proposals,
+identical Metropolis acceptance, three temperatures, absolute spectral
+gaps by dense diagonalization; detailed balance verified to
+$10^{-15}$. The first version of this study \emph{failed its own
+positive-control gate}: an instance-adaptive temperature grew with
+$\sqrt{n}$, corrupting slope comparisons. The pre-registered response
+---documented failure, one amendment (intensive temperature
+$T_k = 2^{-k}J_{\rm rms}$), full re-run---is reported as part of the
+result, since it is the controls discipline working as intended.
+
+-- Results --
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig_qmcmc.png}
+CAPTION: {Exact relaxation cost versus instance size at the coldest
+temperature. Left: on random spin glasses the classical single-flip
+cost explodes with size while the quantum proposal's stays nearly
+flat ($7\times$ exponent advantage). Right: finance-derived instances
+at these sizes are not rugged---no proposal struggles, so there is
+nothing for the quantum step to accelerate.}
+
+[end figure]
+
+[table]
+
+CAPTION: {Relaxation-cost exponents (slope of $\log_2 1/\delta$ per
+spin) at the coldest temperature; 57 instances, gates V1/V2 passed.}
+
+[tabular]
+{lcc}
+
+proposal & random glasses & FF100 finance
+
+quantum & 0.31 & 0.25
+
+single-flip & 2.24 & 0.03
+
+uniform / random-$k$ & 1.00 & 0.40
+
+[end tabular]
+
+[end table]
+
+On the control ensemble the Nature-paper effect reproduces decisively
+(Fig. [fig:qmcmc], Table [tab:qmcmc]): as temperature falls the
+single-flip exponent explodes ($0.67\!\to\!1.21\!\to\!2.24$) while the
+quantum exponent stays flat ($\approx0.3$)---a $\sim$$7\times$
+advantage and the strongest quantum-favorable measurement in this
+program. On the finance ensemble the frozen verdict is \emph{no
+evidence}: the instances at $n\le12$ are simply not glassy (single-flip
+mixes with exponents $0.03$--$0.22$), so there is no bottleneck to
+relieve. The explanation ties the program together: FF100 calm-window
+hardness is a property of the full coupled pool ($n\ge32$) and
+is not inherited by small sub-instances---while exact spectral gaps
+cannot go beyond $n\approx12$--$14$. The validated method and the
+validated hard instances do not yet overlap in scale; sampled
+mixing-time estimation at $n=16$--$32$ is the identified bridging
+experiment. Per the pre-registered honesty clause, exponents count
+chain steps: a quantum step is a circuit (microseconds at best) versus
+$O(n)$ classical flops (nanoseconds), so even the control result is
+evidence about future advantage on cold rugged landscapes, not a
+present-day wall-clock claim.
+
+== Discussion ==
+
+Three cross-cutting quantities decided every verdict, and none of them
+is visible from asymptotics alone. (1) Where hardness lives:
+financial dependence ensembles are self-averaging and homogenize under
+stress; their hardness, when present, is a collective property of large
+coupled pools. (2) Per-operation cost ratios: a quadratic query
+advantage is erased by a $10^{8}$ per-call handicap until precision
+demands become unphysical---Eq. [eq:criterion] converts this into
+a workload screen. (3) Scale overlap: a quantum method validated
+on controls is only evidence for a use case if the sizes where the
+method is measurable intersect the sizes where the use case is hard;
+in case study 3 they do not, yet. These three screens---structural
+hardness, cost-ratio, scale overlap---are, we suggest, the minimum a
+credible quantum-finance proposal should pass before hardware
+experiments are contemplated, and each is measurable classically at
+modest cost.
+
+== Conclusions ==
+
+For the typical financial optimization use case, our evidence indicates
+QAOA is the wrong tool for a structural reason, not an engineering one:
+data-driven financial QUBOs are self-averaging---instance-to-
+instance fluctuations shrink with size, typical instances are alike and
+benign, and the heterogeneous, glassy structure that quantum
+optimizers would need does not survive aggregation, least of all in
+crises, which homogenize the dependence structure and make the
+problems easier. Where residual hardness does appear (calm
+periods, wide universes), classical annealing retains a decisive
+scaling edge and the fixed-angle protocol fails its transfer gates.
+
+This does not mean quantum computing will not be practical---in finance
+or elsewhere. Two of our three case studies produced genuinely
+quantum-favorable measurements: the QAE quadratic speedup observed
+end-to-end on a data-calibrated oracle, and a $7\times$ mixing-exponent
+advantage for quantum-enhanced MCMC on cold rugged landscapes,
+reproduced under gates from independent hardware evidence. What our
+program shows is that practicality is a workload-selection
+problem with measurable acceptance criteria: per-scenario classical
+cost exceeding $\sim$$10^{5}\times$ vectorized arithmetic for
+estimation workloads; genuinely non-self-averaging, pool-scale rugged
+structure for optimization and sampling workloads; and overlap between
+the sizes where quantum methods can be validated and the sizes where
+the target problem is hard. Financial workloads that clear these
+screens were not found among the standard candidates tested here---but
+the screens themselves, and the validated measurement machinery behind
+them, are the constructive product: they tell practitioners exactly
+what to measure before spending a dollar of quantum hardware time, and
+they will identify the first genuine application if and when one
+exists.
+
+Reproducibility:  All data (public, committed), code,
+pre-registrations, checkpointed results ($\sim$700 cells/instances
+across five studies), and amendment history are in the accompanying
+repository; no QPU seconds were consumed.
+
+REFERENCES
+
+-  E. Farhi, J. Goldstone, and S. Gutmann, ``A quantum
+approximate optimization algorithm,'' arXiv:1411.4028 (2014).
+
+-  R. Shaydulin et al., ``Evidence of
+scaling advantage for the quantum approximate optimization algorithm on
+a classically intractable problem,'' Sci.\ Adv. 10,
+eadm6761 (2024).
+
+-  S. Woerner and D. J. Egger, ``Quantum risk
+analysis,'' npj Quantum Inf. 5, 15 (2019).
+
+-  D. Grinko, J. Gacon, C. Zoufal, and S. Woerner,
+``Iterative quantum amplitude estimation,'' npj Quantum Inf.
+7, 52 (2021).
+
+-  S. Chakrabarti et al., ``A threshold
+for quantum advantage in derivative pricing,'' Quantum
+5, 463 (2021).
+
+-  R. Babbush et al., ``Focus beyond
+quadratic speedups for error-corrected quantum advantage,'' \emph{PRX
+Quantum} 2, 010103 (2021).
+
+-  D. Layden et al., ``Quantum-enhanced Markov
+chain Monte Carlo,'' Nature 619, 282 (2023).
+
+-  B. Samanta et al., ``Parametric QUBO
+formulations for feature selection,'' AAAI Fall Symposium Series
+(2025).
+
+-  qbrain, ``QAOA feature selection on IBM
+hardware, judged by the retrained model,'' technical report (2026).

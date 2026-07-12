@@ -1,0 +1,68 @@
+-- Design, and a gate that worked --
+
+For instance sizes $n\le12$ the full $2^{n}\times2^{n}$ transition
+matrix of each chain is computed exactly: quantum proposal
+(averaged $|\langle y|e^{-iHt}|x\rangle|^{2}$ over randomized
+$(\gamma,t)$), single-flip, uniform, and random-$k$-flip proposals,
+identical Metropolis acceptance, three temperatures, absolute spectral
+gaps by dense diagonalization; detailed balance verified to
+$10^{-15}$. The first version of this study \emph{failed its own
+positive-control gate}: an instance-adaptive temperature grew with
+$\sqrt{n}$, corrupting slope comparisons. The pre-registered response
+---documented failure, one amendment (intensive temperature
+$T_k = 2^{-k}J_{\rm rms}$), full re-run---is reported as part of the
+result, since it is the controls discipline working as intended.
+
+-- Results --
+
+[figure]
+
+\includegraphics[width=\columnwidth]{figures/fig_qmcmc.png}
+CAPTION: {Exact relaxation cost versus instance size at the coldest
+temperature. Left: on random spin glasses the classical single-flip
+cost explodes with size while the quantum proposal's stays nearly
+flat ($7\times$ exponent advantage). Right: finance-derived instances
+at these sizes are not rugged---no proposal struggles, so there is
+nothing for the quantum step to accelerate.}
+
+[end figure]
+
+[table]
+
+CAPTION: {Relaxation-cost exponents (slope of $\log_2 1/\delta$ per
+spin) at the coldest temperature; 57 instances, gates V1/V2 passed.}
+
+[tabular]
+{lcc}
+
+proposal & random glasses & FF100 finance
+
+quantum & 0.31 & 0.25
+
+single-flip & 2.24 & 0.03
+
+uniform / random-$k$ & 1.00 & 0.40
+
+[end tabular]
+
+[end table]
+
+On the control ensemble the Nature-paper effect reproduces decisively
+(Fig. [fig:qmcmc], Table [tab:qmcmc]): as temperature falls the
+single-flip exponent explodes ($0.67\!\to\!1.21\!\to\!2.24$) while the
+quantum exponent stays flat ($\approx0.3$)---a $\sim$$7\times$
+advantage and the strongest quantum-favorable measurement in this
+program. On the finance ensemble the frozen verdict is \emph{no
+evidence}: the instances at $n\le12$ are simply not glassy (single-flip
+mixes with exponents $0.03$--$0.22$), so there is no bottleneck to
+relieve. The explanation ties the program together: FF100 calm-window
+hardness is a property of the full coupled pool ($n\ge32$) and
+is not inherited by small sub-instances---while exact spectral gaps
+cannot go beyond $n\approx12$--$14$. The validated method and the
+validated hard instances do not yet overlap in scale; sampled
+mixing-time estimation at $n=16$--$32$ is the identified bridging
+experiment. Per the pre-registered honesty clause, exponents count
+chain steps: a quantum step is a circuit (microseconds at best) versus
+$O(n)$ classical flops (nanoseconds), so even the control result is
+evidence about future advantage on cold rugged landscapes, not a
+present-day wall-clock claim.

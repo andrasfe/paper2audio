@@ -1,0 +1,35 @@
+Quantum computing is regularly proposed as a future accelerator for
+financial workloads, with portfolio optimization and Monte-Carlo risk
+measurement cited most often. These proposals typically rest on
+asymptotic arguments; whether any advantage survives contact with real
+market data, realistic precision targets, and competent classical
+baselines is an empirical question. Because quantum hardware is not
+ready for commercial use, that question cannot yet be settled by
+deployment---but it can be settled, workload by workload, through
+controlled feasibility studies that measure the quantities on which any
+future advantage must depend: scaling exponents, certified optimality
+gaps, per-operation cost ratios, and precision requirements.
+
+This paper reports three such case studies, executed under a common
+discipline: designs and decision rules frozen in pre-registrations
+before results existed; classical baselines that are certified (exact
+optimization at zero MIP gap) or measured (replicated Monte-Carlo cost)
+rather than assumed; adversarial controls that attribute every effect
+to a mechanism; and honesty clauses that separate what was measured
+(query counts, chain steps, exponents) from what was not (wall-clock
+hardware performance). No quantum hardware time was consumed; all
+quantum objects were simulated exactly or resource-counted from
+verified circuit constructions.
+
+Contributions: (1) a regime-conditional hardness study of data-driven
+financial QUBOs across the 2008 and 2020 crises, refuting---with the
+sign reversed---the hypothesis that crises produce quantum-relevant
+hardness; (2) a verification-gated resource estimate for QAE tail-risk
+measurement on backtested models, with the quadratic speedup observed
+directly and a quantitative workload-selection criterion derived; (3)
+the first application of the quantum-enhanced MCMC proposal to
+finance-derived instances, with its advantage reproduced on controls
+and its inapplicability at verifiable financial sizes explained; and
+(4) a cross-cutting account of why typical financial ensembles
+resist quantum optimization---self-averaging---and what would have to
+be different for practical value to emerge.
