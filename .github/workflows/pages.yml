@@ -1,14 +1,16 @@
 name: Deploy player to GitHub Pages
 
+# Deploys by pushing the assembled site to the gh-pages branch, which
+# GitHub Pages serves. (The Pages REST API deploy path requires a token
+# permission this repository's workflow token does not have.)
+
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -17,9 +19,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Assemble static site
@@ -30,14 +29,15 @@ jobs:
           cp -r examples/quantum_finance/audio _site/audio
           cp -r examples/quantum_finance/figures/img _site/figures/img
           cp -r examples/quantum_finance/figures/audio _site/figures/audio
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+          touch _site/.nojekyll
+      - name: Push to gh-pages
+        run: |
+          cd _site
+          git init -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy site from ${GITHUB_SHA::7}"
+          git push --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" \
+            gh-pages
