@@ -181,11 +181,27 @@
     badge.hidden = false;
     badge.textContent = '⬇ caching for offline…';
     try {
-      await navigator.serviceWorker.register('sw.js');
+      const reg = await navigator.serviceWorker.register('sw.js');
       navigator.serviceWorker.ready.then(() => {
-        badge.textContent = '✓ available offline';
-        badge.classList.add('ready');
+        if (!reg.waiting && !reg.installing) {
+          badge.textContent = '✓ available offline';
+          badge.classList.add('ready');
+        }
       });
+      const watch = (sw) => {
+        if (!sw) return;
+        badge.classList.remove('ready');
+        badge.textContent = '⬇ downloading update…';
+        sw.addEventListener('statechange', () => {
+          if (sw.state === 'installed' || sw.state === 'activated') {
+            badge.textContent = '✓ update ready — close and reopen the app';
+            badge.classList.add('ready');
+          }
+        });
+      };
+      watch(reg.installing);
+      if (reg.waiting) watch(reg.waiting);
+      reg.addEventListener('updatefound', () => watch(reg.installing));
     } catch (e) { badge.textContent = 'offline caching unavailable'; }
   }
 
