@@ -13,7 +13,7 @@
       "slug": "01-welcome-and-overview",
       "title": "Welcome and overview",
       "brief": "Greet the listener, state what the talk covers, and give the abstract-level one-sentence version of the paper's findings.",
-      "words": 453,
+      "words": 508,
       "source": "sections/01-front-matter-and-abstract.txt",
       "script": "scripts/01-welcome-and-overview.txt",
       "audio": "audio/01-welcome-and-overview.mp3"
@@ -173,7 +173,7 @@
       "slug": "17-discussion-and-conclusions",
       "title": "The big picture and conclusions",
       "brief": "The three cross-cutting screens (structural hardness, per-operation cost ratio, scale overlap), the self-averaging structural conclusion, and why the negative verdicts do not preclude practical quantum value.",
-      "words": 484,
+      "words": 717,
       "source": "sections/09-discussion.txt",
       "script": "scripts/17-discussion-and-conclusions.txt",
       "audio": "audio/17-discussion-and-conclusions.mp3"
