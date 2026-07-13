@@ -13,7 +13,7 @@
       "slug": "01-welcome-and-overview",
       "title": "Welcome and overview",
       "brief": "Greet the listener, state what the talk covers, and give the abstract-level one-sentence version of the paper's findings.",
-      "words": 201,
+      "words": 400,
       "source": "sections/01-front-matter-and-abstract.txt",
       "script": "scripts/01-welcome-and-overview.txt",
       "audio": "audio/01-welcome-and-overview.mp3"
@@ -40,73 +40,143 @@
     },
     {
       "index": 4,
-      "slug": "04-primer-qubos-and-classical-baselines",
+      "slug": "04-deeper-into-the-machine",
+      "title": "Deeper into the machine: gates, entanglement, and error correction",
+      "brief": "Chapter: Deeper into the machine: gates, entanglement, and error correction.",
+      "words": 1222,
+      "source": null,
+      "script": "scripts/04-deeper-into-the-machine.txt",
+      "audio": "audio/04-deeper-into-the-machine.mp3"
+    },
+    {
+      "index": 5,
+      "slug": "05-the-algorithm-zoo",
+      "title": "The quantum algorithm zoo, and how finance got in line",
+      "brief": "Chapter: The quantum algorithm zoo, and how finance got in line.",
+      "words": 1337,
+      "source": null,
+      "script": "scripts/05-the-algorithm-zoo.txt",
+      "audio": "audio/05-the-algorithm-zoo.mp3"
+    },
+    {
+      "index": 6,
+      "slug": "06-primer-qubos-and-classical-baselines",
       "title": "Primer: QUBOs, rugged landscapes, and the classical baselines",
       "brief": "Define QUBO, local minima and rugged/spin-glass landscapes; explain the two classical baselines: certified Gurobi via exact eigenvalue-shift convexification, and simulated annealing with time-to-solution at 99 percent.",
       "words": 535,
       "source": null,
-      "script": "scripts/04-primer-qubos-and-classical-baselines.txt",
-      "audio": "audio/04-primer-qubos-and-classical-baselines.mp3"
+      "script": "scripts/06-primer-qubos-and-classical-baselines.txt",
+      "audio": "audio/06-primer-qubos-and-classical-baselines.mp3"
     },
     {
-      "index": 5,
-      "slug": "05-methodology-and-data",
+      "index": 7,
+      "slug": "07-methodology-and-data",
       "title": "Methodology and data",
       "brief": "Pre-registration and forking paths, adversarial controls, honesty clauses, zero QPU seconds; the Kenneth French dataset, the two universes, 126-day windows, and the four headline calm/crisis windows.",
       "words": 336,
       "source": "sections/05-common-methodology.txt",
-      "script": "scripts/05-methodology-and-data.txt",
-      "audio": "audio/05-methodology-and-data.mp3"
+      "script": "scripts/07-methodology-and-data.txt",
+      "audio": "audio/07-methodology-and-data.mp3"
     },
     {
-      "index": 6,
-      "slug": "06-case-study-1-qaoa-portfolio-selection",
+      "index": 8,
+      "slug": "08-methodology-masterclass",
+      "title": "Methodology masterclass: pre-registration, gates, and controls",
+      "brief": "Chapter: Methodology masterclass: pre-registration, gates, and controls.",
+      "words": 1303,
+      "source": null,
+      "script": "scripts/08-methodology-masterclass.txt",
+      "audio": "audio/08-methodology-masterclass.mp3"
+    },
+    {
+      "index": 9,
+      "slug": "09-physics-of-hardness",
+      "title": "The physics of hardness: spin glasses, frustration, and self-averaging",
+      "brief": "Chapter: The physics of hardness: spin glasses, frustration, and self-averaging.",
+      "words": 1287,
+      "source": null,
+      "script": "scripts/09-physics-of-hardness.txt",
+      "audio": "audio/09-physics-of-hardness.mp3"
+    },
+    {
+      "index": 10,
+      "slug": "10-case-study-1-qaoa-portfolio-selection",
       "title": "Case study one: QAOA and portfolio selection",
       "brief": "The portfolio-selection QUBO, how QAOA works, the fixed-angle protocol and angle concentration, the crisis-hardness hypothesis and its reversal with all headline numbers, the controls, self-averaging, the concentration-hardness trade-off, scaling exponents, the FF100 extension, transfer-gate failure, and the frozen verdict.",
       "words": 3509,
       "source": "sections/06-case-study-1-portfolio-selection-qubos-and-qaoa.txt",
-      "script": "scripts/06-case-study-1-qaoa-portfolio-selection.txt",
-      "audio": "audio/06-case-study-1-qaoa-portfolio-selection.mp3"
+      "script": "scripts/10-case-study-1-qaoa-portfolio-selection.txt",
+      "audio": "audio/10-case-study-1-qaoa-portfolio-selection.mp3"
     },
     {
-      "index": 7,
-      "slug": "07-case-study-2-qae-tail-risk",
+      "index": 11,
+      "slug": "11-case-study-2-qae-tail-risk",
       "title": "Case study two: amplitude estimation for tail risk",
       "brief": "VaR/CVaR and Monte Carlo's inverse-square law, how amplitude estimation achieves 1/epsilon, the verification layers (Student-t model, Kupiec backtest, discretization gate, 18-qubit end-to-end oracle), the observed epsilon^-1.03 vs epsilon^-2.00 scaling, resource counts and the frontier, the workload-selection criterion, the nested-XVA cells, and the verdict.",
-      "words": 2881,
+      "words": 2898,
       "source": "sections/07-case-study-2-qae-for-tail-risk.txt",
-      "script": "scripts/07-case-study-2-qae-tail-risk.txt",
-      "audio": "audio/07-case-study-2-qae-tail-risk.mp3"
+      "script": "scripts/11-case-study-2-qae-tail-risk.txt",
+      "audio": "audio/11-case-study-2-qae-tail-risk.mp3"
     },
     {
-      "index": 8,
-      "slug": "08-case-study-3-quantum-mcmc",
+      "index": 12,
+      "slug": "12-inside-the-fault-tolerant-machine",
+      "title": "Inside the fault-tolerant machine",
+      "brief": "Chapter: Inside the fault-tolerant machine.",
+      "words": 1306,
+      "source": null,
+      "script": "scripts/12-inside-the-fault-tolerant-machine.txt",
+      "audio": "audio/12-inside-the-fault-tolerant-machine.mp3"
+    },
+    {
+      "index": 13,
+      "slug": "13-case-study-3-quantum-mcmc",
       "title": "Case study three: quantum-enhanced MCMC",
       "brief": "Metropolis-Hastings and spectral gaps, the quantum proposal and why noise only slows it, the exact transition-matrix design, the v1 positive-control failure and the intensive-temperature amendment, the 7x exponent advantage on spin glasses, the finance null, scale mismatch, and the bridging experiment.",
       "words": 1994,
       "source": "sections/08-case-study-3-quantum-enhanced-mcmc.txt",
-      "script": "scripts/08-case-study-3-quantum-mcmc.txt",
-      "audio": "audio/08-case-study-3-quantum-mcmc.mp3"
+      "script": "scripts/13-case-study-3-quantum-mcmc.txt",
+      "audio": "audio/13-case-study-3-quantum-mcmc.mp3"
     },
     {
-      "index": 9,
-      "slug": "09-discussion-and-conclusions",
+      "index": 14,
+      "slug": "14-discussion-and-conclusions",
       "title": "The big picture and conclusions",
       "brief": "The three cross-cutting screens (structural hardness, per-operation cost ratio, scale overlap), the self-averaging structural conclusion, and why the negative verdicts do not preclude practical quantum value.",
       "words": 484,
       "source": "sections/09-discussion.txt",
-      "script": "scripts/09-discussion-and-conclusions.txt",
-      "audio": "audio/09-discussion-and-conclusions.mp3"
+      "script": "scripts/14-discussion-and-conclusions.txt",
+      "audio": "audio/14-discussion-and-conclusions.mp3"
     },
     {
-      "index": 10,
-      "slug": "10-limitations-and-closing",
+      "index": 15,
+      "slug": "15-objections-and-answers",
+      "title": "Objections and answers",
+      "brief": "Chapter: Objections and answers.",
+      "words": 1327,
+      "source": null,
+      "script": "scripts/15-objections-and-answers.txt",
+      "audio": "audio/15-objections-and-answers.mp3"
+    },
+    {
+      "index": 16,
+      "slug": "16-research-agenda",
+      "title": "The research agenda: what to measure next",
+      "brief": "Chapter: The research agenda: what to measure next.",
+      "words": 1110,
+      "source": null,
+      "script": "scripts/16-research-agenda.txt",
+      "audio": "audio/16-research-agenda.mp3"
+    },
+    {
+      "index": 17,
+      "slug": "17-limitations-and-closing",
       "title": "Limitations and closing",
       "brief": "The paper's shortcomings stated plainly (simulation-only, size limits, one data family, shallow QAOA depth, convention dominance, conventional baselines), the final differentiated summary, and the sign-off.",
       "words": 619,
       "source": "sections/10-conclusions.txt",
-      "script": "scripts/10-limitations-and-closing.txt",
-      "audio": "audio/10-limitations-and-closing.mp3"
+      "script": "scripts/17-limitations-and-closing.txt",
+      "audio": "audio/17-limitations-and-closing.mp3"
     }
   ]
 }
