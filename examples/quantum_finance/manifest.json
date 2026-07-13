@@ -13,7 +13,7 @@
       "slug": "01-welcome-and-overview",
       "title": "Welcome and overview",
       "brief": "Greet the listener, state what the talk covers, and give the abstract-level one-sentence version of the paper's findings.",
-      "words": 400,
+      "words": 453,
       "source": "sections/01-front-matter-and-abstract.txt",
       "script": "scripts/01-welcome-and-overview.txt",
       "audio": "audio/01-welcome-and-overview.mp3"
@@ -93,90 +93,140 @@
       "slug": "09-physics-of-hardness",
       "title": "The physics of hardness: spin glasses, frustration, and self-averaging",
       "brief": "Chapter: The physics of hardness: spin glasses, frustration, and self-averaging.",
-      "words": 1287,
+      "words": 1301,
       "source": null,
       "script": "scripts/09-physics-of-hardness.txt",
       "audio": "audio/09-physics-of-hardness.mp3"
     },
     {
       "index": 10,
-      "slug": "10-case-study-1-qaoa-portfolio-selection",
+      "slug": "10-qaoa-toolbox",
+      "title": "The QAOA toolbox at full resolution",
+      "brief": "Chapter: The QAOA toolbox at full resolution.",
+      "words": 1579,
+      "source": null,
+      "script": "scripts/10-qaoa-toolbox.txt",
+      "audio": "audio/10-qaoa-toolbox.mp3"
+    },
+    {
+      "index": 11,
+      "slug": "11-case-study-1-qaoa-portfolio-selection",
       "title": "Case study one: QAOA and portfolio selection",
       "brief": "The portfolio-selection QUBO, how QAOA works, the fixed-angle protocol and angle concentration, the crisis-hardness hypothesis and its reversal with all headline numbers, the controls, self-averaging, the concentration-hardness trade-off, scaling exponents, the FF100 extension, transfer-gate failure, and the frozen verdict.",
       "words": 3509,
       "source": "sections/06-case-study-1-portfolio-selection-qubos-and-qaoa.txt",
-      "script": "scripts/10-case-study-1-qaoa-portfolio-selection.txt",
-      "audio": "audio/10-case-study-1-qaoa-portfolio-selection.mp3"
+      "script": "scripts/11-case-study-1-qaoa-portfolio-selection.txt",
+      "audio": "audio/11-case-study-1-qaoa-portfolio-selection.mp3"
     },
     {
-      "index": 11,
-      "slug": "11-case-study-2-qae-tail-risk",
+      "index": 12,
+      "slug": "12-qae-toolbox",
+      "title": "The amplitude estimation toolbox at full resolution",
+      "brief": "Chapter: The amplitude estimation toolbox at full resolution.",
+      "words": 1497,
+      "source": null,
+      "script": "scripts/12-qae-toolbox.txt",
+      "audio": "audio/12-qae-toolbox.mp3"
+    },
+    {
+      "index": 13,
+      "slug": "13-case-study-2-qae-tail-risk",
       "title": "Case study two: amplitude estimation for tail risk",
       "brief": "VaR/CVaR and Monte Carlo's inverse-square law, how amplitude estimation achieves 1/epsilon, the verification layers (Student-t model, Kupiec backtest, discretization gate, 18-qubit end-to-end oracle), the observed epsilon^-1.03 vs epsilon^-2.00 scaling, resource counts and the frontier, the workload-selection criterion, the nested-XVA cells, and the verdict.",
       "words": 2898,
       "source": "sections/07-case-study-2-qae-for-tail-risk.txt",
-      "script": "scripts/11-case-study-2-qae-tail-risk.txt",
-      "audio": "audio/11-case-study-2-qae-tail-risk.mp3"
+      "script": "scripts/13-case-study-2-qae-tail-risk.txt",
+      "audio": "audio/13-case-study-2-qae-tail-risk.mp3"
     },
     {
-      "index": 12,
-      "slug": "12-inside-the-fault-tolerant-machine",
+      "index": 14,
+      "slug": "14-inside-the-fault-tolerant-machine",
       "title": "Inside the fault-tolerant machine",
       "brief": "Chapter: Inside the fault-tolerant machine.",
-      "words": 1306,
+      "words": 1311,
       "source": null,
-      "script": "scripts/12-inside-the-fault-tolerant-machine.txt",
-      "audio": "audio/12-inside-the-fault-tolerant-machine.mp3"
+      "script": "scripts/14-inside-the-fault-tolerant-machine.txt",
+      "audio": "audio/14-inside-the-fault-tolerant-machine.mp3"
     },
     {
-      "index": 13,
-      "slug": "13-case-study-3-quantum-mcmc",
+      "index": 15,
+      "slug": "15-mcmc-toolbox",
+      "title": "The MCMC toolbox at full resolution",
+      "brief": "Chapter: The MCMC toolbox at full resolution.",
+      "words": 1432,
+      "source": null,
+      "script": "scripts/15-mcmc-toolbox.txt",
+      "audio": "audio/15-mcmc-toolbox.mp3"
+    },
+    {
+      "index": 16,
+      "slug": "16-case-study-3-quantum-mcmc",
       "title": "Case study three: quantum-enhanced MCMC",
       "brief": "Metropolis-Hastings and spectral gaps, the quantum proposal and why noise only slows it, the exact transition-matrix design, the v1 positive-control failure and the intensive-temperature amendment, the 7x exponent advantage on spin glasses, the finance null, scale mismatch, and the bridging experiment.",
       "words": 1994,
       "source": "sections/08-case-study-3-quantum-enhanced-mcmc.txt",
-      "script": "scripts/13-case-study-3-quantum-mcmc.txt",
-      "audio": "audio/13-case-study-3-quantum-mcmc.mp3"
+      "script": "scripts/16-case-study-3-quantum-mcmc.txt",
+      "audio": "audio/16-case-study-3-quantum-mcmc.mp3"
     },
     {
-      "index": 14,
-      "slug": "14-discussion-and-conclusions",
+      "index": 17,
+      "slug": "17-discussion-and-conclusions",
       "title": "The big picture and conclusions",
       "brief": "The three cross-cutting screens (structural hardness, per-operation cost ratio, scale overlap), the self-averaging structural conclusion, and why the negative verdicts do not preclude practical quantum value.",
       "words": 484,
       "source": "sections/09-discussion.txt",
-      "script": "scripts/14-discussion-and-conclusions.txt",
-      "audio": "audio/14-discussion-and-conclusions.mp3"
+      "script": "scripts/17-discussion-and-conclusions.txt",
+      "audio": "audio/17-discussion-and-conclusions.mp3"
     },
     {
-      "index": 15,
-      "slug": "15-objections-and-answers",
+      "index": 18,
+      "slug": "18-reading-the-numbers",
+      "title": "Reading the numbers like a referee",
+      "brief": "Chapter: Reading the numbers like a referee.",
+      "words": 1046,
+      "source": null,
+      "script": "scripts/18-reading-the-numbers.txt",
+      "audio": "audio/18-reading-the-numbers.mp3"
+    },
+    {
+      "index": 19,
+      "slug": "19-objections-and-answers",
       "title": "Objections and answers",
       "brief": "Chapter: Objections and answers.",
-      "words": 1327,
+      "words": 1332,
       "source": null,
-      "script": "scripts/15-objections-and-answers.txt",
-      "audio": "audio/15-objections-and-answers.mp3"
+      "script": "scripts/19-objections-and-answers.txt",
+      "audio": "audio/19-objections-and-answers.mp3"
     },
     {
-      "index": 16,
-      "slug": "16-research-agenda",
+      "index": 20,
+      "slug": "20-research-agenda",
       "title": "The research agenda: what to measure next",
       "brief": "Chapter: The research agenda: what to measure next.",
-      "words": 1110,
+      "words": 1107,
       "source": null,
-      "script": "scripts/16-research-agenda.txt",
-      "audio": "audio/16-research-agenda.mp3"
+      "script": "scripts/20-research-agenda.txt",
+      "audio": "audio/20-research-agenda.mp3"
     },
     {
-      "index": 17,
-      "slug": "17-limitations-and-closing",
+      "index": 21,
+      "slug": "21-recap-in-numbers",
+      "title": "The recap: the whole program in numbers",
+      "brief": "Chapter: The recap: the whole program in numbers.",
+      "words": 1020,
+      "source": null,
+      "script": "scripts/21-recap-in-numbers.txt",
+      "audio": "audio/21-recap-in-numbers.mp3"
+    },
+    {
+      "index": 22,
+      "slug": "22-limitations-and-closing",
       "title": "Limitations and closing",
       "brief": "The paper's shortcomings stated plainly (simulation-only, size limits, one data family, shallow QAOA depth, convention dominance, conventional baselines), the final differentiated summary, and the sign-off.",
       "words": 619,
       "source": "sections/10-conclusions.txt",
-      "script": "scripts/17-limitations-and-closing.txt",
-      "audio": "audio/17-limitations-and-closing.mp3"
+      "script": "scripts/22-limitations-and-closing.txt",
+      "audio": "audio/22-limitations-and-closing.mp3"
     }
   ]
 }
