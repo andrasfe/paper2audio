@@ -1,0 +1,206 @@
+{
+  "title": "Byzantine-Resilient Federated Learning on Quantum Annealers",
+  "subtitle": "A 1h 21m audio course on QUBO-based client selection against Byzantine attacks in federated learning",
+  "chapters": [
+    {
+      "index": 1,
+      "slug": "01-welcome-and-overview",
+      "title": "Welcome and overview",
+      "audio": "audio/01-welcome-and-overview.mp3",
+      "duration": 215.9,
+      "cues": []
+    },
+    {
+      "index": 2,
+      "slug": "02-federated-learning-and-the-byzantine-problem",
+      "title": "Federated learning and the Byzantine problem",
+      "audio": "audio/02-federated-learning-and-the-byzantine-problem.mp3",
+      "duration": 277.4,
+      "cues": []
+    },
+    {
+      "index": 3,
+      "slug": "03-krum-and-multikrum",
+      "title": "Krum, MultiKrum, and the blind spot",
+      "audio": "audio/03-krum-and-multikrum.mp3",
+      "duration": 353.6,
+      "cues": []
+    },
+    {
+      "index": 4,
+      "slug": "04-the-attack-zoo",
+      "title": "The attack zoo: thirteen ways to lie",
+      "audio": "audio/04-the-attack-zoo.mp3",
+      "duration": 360.9,
+      "cues": []
+    },
+    {
+      "index": 5,
+      "slug": "05-primer-qubo-and-quantum-annealing",
+      "title": "Primer: QUBO and quantum annealing",
+      "audio": "audio/05-primer-qubo-and-quantum-annealing.mp3",
+      "duration": 385.8,
+      "cues": []
+    },
+    {
+      "index": 6,
+      "slug": "06-building-the-qubo",
+      "title": "Building the QUBO: from gradients to a cost matrix",
+      "audio": "audio/06-building-the-qubo.mp3",
+      "duration": 435.7,
+      "cues": []
+    },
+    {
+      "index": 7,
+      "slug": "07-scaling-up-cascaded-dual-qubo",
+      "title": "Scaling up: the Cascaded Dual-QUBO",
+      "audio": "audio/07-scaling-up-cascaded-dual-qubo.mp3",
+      "duration": 303.3,
+      "cues": []
+    },
+    {
+      "index": 8,
+      "slug": "08-the-multisignal-ensemble",
+      "title": "The MultiSignal ensemble",
+      "audio": "audio/08-the-multisignal-ensemble.mp3",
+      "duration": 410.5,
+      "cues": [
+        {
+          "t": 22.7,
+          "fig": "fig_routing_gate"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "slug": "09-experimental-setup",
+      "title": "How the experiments were run",
+      "audio": "audio/09-experimental-setup.mp3",
+      "duration": 346.9,
+      "cues": []
+    },
+    {
+      "index": 10,
+      "slug": "10-results-at-15-clients",
+      "title": "Results at 15 clients: a tale of two families",
+      "audio": "audio/10-results-at-15-clients.mp3",
+      "duration": 513.8,
+      "cues": [
+        {
+          "t": 27.9,
+          "fig": "fig_mnist_all_attacks"
+        },
+        {
+          "t": 420.5,
+          "fig": "fig_evasion_cross_dataset"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "slug": "11-reading-the-round-by-round-figures",
+      "title": "Reading the round-by-round figures",
+      "audio": "audio/11-reading-the-round-by-round-figures.mp3",
+      "duration": 330.4,
+      "cues": [
+        {
+          "t": 81.5,
+          "fig": "fig1_mnist_alie"
+        },
+        {
+          "t": 123.6,
+          "fig": "fig2_mnist_sparse"
+        },
+        {
+          "t": 206.8,
+          "fig": "fig3_cifar_alie"
+        },
+        {
+          "t": 225.3,
+          "fig": "fig4_cifar_sparse"
+        },
+        {
+          "t": 262.5,
+          "fig": "fig5_fmnist_alie"
+        },
+        {
+          "t": 277.8,
+          "fig": "fig6_fmnist_sparse"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "slug": "12-results-at-100-clients",
+      "title": "Results at 100 clients: the ensemble pays off",
+      "audio": "audio/12-results-at-100-clients.mp3",
+      "duration": 391.4,
+      "cues": [
+        {
+          "t": 37.0,
+          "fig": "fig_100_clients"
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "slug": "13-why-they-differ-costs-limits-and-conclusions",
+      "title": "Why the methods differ, what they cost, and what is left undone",
+      "audio": "audio/13-why-they-differ-costs-limits-and-conclusions.mp3",
+      "duration": 524.3,
+      "cues": []
+    }
+  ],
+  "figures": {
+    "fig_routing_gate": {
+      "src": "figures/img/fig_routing_gate.png",
+      "title": "The MultiSignal routing gate: four regimes, two cutoffs",
+      "audio": "figures/audio/fig_routing_gate.mp3"
+    },
+    "fig_mnist_all_attacks": {
+      "src": "figures/img/fig_mnist_all_attacks.png",
+      "title": "MNIST at 15 clients: all 13 attacks, classical vs QUBO",
+      "audio": "figures/audio/fig_mnist_all_attacks.mp3"
+    },
+    "fig_evasion_cross_dataset": {
+      "src": "figures/img/fig_evasion_cross_dataset.png",
+      "title": "The five evasion attacks across three datasets",
+      "audio": "figures/audio/fig_evasion_cross_dataset.mp3"
+    },
+    "fig1_mnist_alie": {
+      "src": "figures/img/fig1_mnist_alie.png",
+      "title": "MNIST: round-by-round detection under Advanced Lie",
+      "audio": "figures/audio/fig1_mnist_alie.mp3"
+    },
+    "fig2_mnist_sparse": {
+      "src": "figures/img/fig2_mnist_sparse.png",
+      "title": "MNIST: round-by-round detection under Sparse Lie",
+      "audio": "figures/audio/fig2_mnist_sparse.mp3"
+    },
+    "fig3_cifar_alie": {
+      "src": "figures/img/fig3_cifar_alie.png",
+      "title": "CIFAR-10: round-by-round detection under Advanced Lie",
+      "audio": "figures/audio/fig3_cifar_alie.mp3"
+    },
+    "fig4_cifar_sparse": {
+      "src": "figures/img/fig4_cifar_sparse.png",
+      "title": "CIFAR-10: round-by-round detection under Sparse Lie",
+      "audio": "figures/audio/fig4_cifar_sparse.mp3"
+    },
+    "fig5_fmnist_alie": {
+      "src": "figures/img/fig5_fmnist_alie.png",
+      "title": "FashionMNIST: round-by-round detection under Advanced Lie",
+      "audio": "figures/audio/fig5_fmnist_alie.mp3"
+    },
+    "fig6_fmnist_sparse": {
+      "src": "figures/img/fig6_fmnist_sparse.png",
+      "title": "FashionMNIST: round-by-round detection under Sparse Lie",
+      "audio": "figures/audio/fig6_fmnist_sparse.mp3"
+    },
+    "fig_100_clients": {
+      "src": "figures/img/fig_100_clients.png",
+      "title": "100 clients: classical, cascade, and the MultiSignal ensemble",
+      "audio": "figures/audio/fig_100_clients.mp3"
+    }
+  }
+}

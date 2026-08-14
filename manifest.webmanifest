@@ -1,0 +1,14 @@
+{
+  "name": "Paper Audio Player",
+  "short_name": "PaperAudio",
+  "description": "Listen to a research paper as chaptered audio with synced figures, fully offline",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#10141a",
+  "theme_color": "#10141a",
+  "icons": [
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

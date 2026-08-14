@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Paper Audio Player</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎧</text></svg>">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="theme-color" content="#10141a">
+<style>
+  :root {
+    --bg: #10141a; --panel: #1a2029; --panel2: #222a36; --text: #e8ecf1;
+    --muted: #93a0b0; --accent: #4da3ff; --accent2: #7ee0a3; --line: #2c3644;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f5f7fa; --panel: #ffffff; --panel2: #eef2f7; --text: #1a2230;
+      --muted: #5b6878; --accent: #0b6fd6; --accent2: #12855b; --line: #d8e0ea;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  }
+  header { padding: 18px 16px 10px; max-width: 860px; margin: 0 auto; }
+  header h1 { font-size: 1.25rem; line-height: 1.3; }
+  header p { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+  #resume {
+    display: none; margin-top: 10px; padding: 8px 14px; border-radius: 20px;
+    background: var(--accent); color: #fff; border: 0; font-size: .9rem;
+  }
+  #offline {
+    display: inline-block; margin-top: 8px; padding: 4px 10px;
+    border-radius: 12px; font-size: .72rem; background: var(--panel2);
+    color: var(--muted); border: 1px solid var(--line);
+  }
+  #offline.ready { color: #0a5c36; background: #d9f5e5; border-color: transparent; }
+  @media (prefers-color-scheme: dark) {
+    #offline.ready { color: #7ee0a3; background: #17352a; }
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 0 12px; }
+
+  /* figure panel */
+  #figpanel {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 12px; margin-top: 8px;
+  }
+  #figmain { text-align: center; }
+  #figmain .ph { color: var(--muted); font-size: .9rem; padding: 26px 10px; }
+  #figmain img {
+    max-width: 100%; border-radius: 8px; background: #fff; cursor: zoom-in;
+  }
+  #figcap {
+    display: flex; align-items: center; gap: 10px; margin-top: 8px; text-align: left;
+  }
+  #figcap .t { flex: 1; font-size: .82rem; color: var(--muted); }
+  .xbtn {
+    border: 1px solid var(--line); background: var(--panel2); color: var(--text);
+    border-radius: 18px; padding: 7px 12px; font-size: .82rem; white-space: nowrap;
+  }
+  .xbtn.playing { background: var(--accent2); color: #08341f; border-color: transparent; }
+  #figthumbs {
+    display: flex; gap: 8px; overflow-x: auto; margin-top: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+  #figthumbs img {
+    height: 52px; border-radius: 6px; background: #fff; opacity: .55;
+    border: 2px solid transparent; flex: 0 0 auto;
+  }
+  #figthumbs img.on { opacity: 1; border-color: var(--accent); }
+
+  /* chapters */
+  #chapters { list-style: none; margin: 14px 0 20px; }
+  #chapters li {
+    display: flex; align-items: center; gap: 12px; padding: 11px 12px;
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; margin-bottom: 7px; cursor: pointer; position: relative;
+    overflow: hidden;
+  }
+  #chapters li .bar {
+    position: absolute; left: 0; bottom: 0; height: 3px;
+    background: var(--accent); width: 0;
+  }
+  #chapters li.cur { border-color: var(--accent); }
+  #chapters .n {
+    width: 26px; height: 26px; border-radius: 50%; background: var(--panel2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .78rem; color: var(--muted); flex: 0 0 auto;
+  }
+  #chapters li.done .n { background: var(--accent2); color: #08341f; }
+  #chapters .ti { flex: 1; font-size: .92rem; }
+  #chapters .du { color: var(--muted); font-size: .8rem; }
+
+  /* player bar */
+  #playerbar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    background: var(--panel); border-top: 1px solid var(--line);
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  }
+  #playerbar .row1 {
+    display: flex; align-items: center; gap: 8px; max-width: 860px; margin: 0 auto 6px;
+  }
+  #nowtitle {
+    flex: 1; font-size: .85rem; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  #playerbar audio { width: 100%; max-width: 860px; display: block; margin: 0 auto; height: 40px; }
+  .nav {
+    border: 1px solid var(--line); background: var(--panel2); color: var(--text);
+    border-radius: 8px; padding: 6px 10px; font-size: .85rem;
+  }
+
+  /* lightbox */
+  #lb {
+    display: none; position: fixed; inset: 0; z-index: 50;
+    background: rgba(5,8,12,.96); touch-action: none;
+  }
+  #lb.open { display: block; }
+  #lb img {
+    position: absolute; left: 0; top: 0; transform-origin: 0 0;
+    background: #fff; border-radius: 4px; max-width: none;
+    -webkit-user-select: none; user-select: none;
+  }
+  #lb .close {
+    position: absolute; top: calc(10px + env(safe-area-inset-top)); right: 14px;
+    z-index: 51; background: rgba(255,255,255,.14); color: #fff; border: 0;
+    border-radius: 50%; width: 40px; height: 40px; font-size: 20px;
+  }
+  #lb .hint {
+    position: absolute; bottom: calc(14px + env(safe-area-inset-bottom));
+    width: 100%; text-align: center; color: #b9c4d0; font-size: .75rem; z-index: 51;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">Loading…</h1>
+  <p id="subtitle"></p>
+  <span id="offline" hidden></span>
+  <button id="resume"></button>
+</header>
+<main>
+  <section id="figpanel">
+    <div id="figmain"><div class="ph">Figures appear here as the narration reaches them. Tap a thumbnail anytime.</div></div>
+    <div id="figcap" style="display:none">
+      <span class="t" id="figtitle"></span>
+      <button class="xbtn" id="explain">&#9654; Explain this figure</button>
+    </div>
+    <div id="figthumbs"></div>
+  </section>
+  <ol id="chapters"></ol>
+</main>
+<footer id="playerbar">
+  <div class="row1">
+    <button class="nav" id="prev">&#171;</button>
+    <span id="nowtitle"></span>
+    <button class="nav" id="speed">1&times;</button>
+    <button class="nav" id="next">&#187;</button>
+  </div>
+  <audio id="audio" controls preload="metadata"></audio>
+</footer>
+<div id="lb">
+  <button class="close" id="lbclose">&#10005;</button>
+  <img id="lbimg" alt="figure, zoomed">
+  <div class="hint">pinch or scroll to zoom &#183; drag to pan &#183; double-tap to toggle</div>
+</div>
+
+<script>
+(async function () {
+  /* offline support: register the service worker; it precaches the app
+     shell + every audio/figure asset, so after the first full load the
+     whole talk works in airplane mode. */
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    const badge = document.getElementById('offline');
+    badge.hidden = false;
+    badge.textContent = '⬇ caching for offline…';
+    try {
+      const reg = await navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.ready.then(() => {
+        if (!reg.waiting && !reg.installing) {
+          badge.textContent = '✓ available offline';
+          badge.classList.add('ready');
+        }
+      });
+      const watch = (sw) => {
+        if (!sw) return;
+        badge.classList.remove('ready');
+        badge.textContent = '⬇ downloading update…';
+        sw.addEventListener('statechange', () => {
+          if (sw.state === 'installed' || sw.state === 'activated') {
+            badge.textContent = '✓ update ready — close and reopen the app';
+            badge.classList.add('ready');
+          }
+        });
+      };
+      watch(reg.installing);
+      if (reg.waiting) watch(reg.waiting);
+      reg.addEventListener('updatefound', () => watch(reg.installing));
+    } catch (e) { badge.textContent = 'offline caching unavailable'; }
+  }
+
+  const site = await (await fetch('site.json')).json();
+  const KEY = 'paper2audio:' + site.title;
+  const $ = id => document.getElementById(id);
+  const audio = $('audio'), xaudio = new Audio();
+  const fmt = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+
+  document.title = site.title;
+  $('title').textContent = site.title;
+  $('subtitle').textContent = site.subtitle || '';
+
+  let state = { ch: 0, t: 0, done: {}, times: {}, speed: 1 };
+  try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
+  const save = () => localStorage.setItem(KEY, JSON.stringify(state));
+
+  /* ---------- chapter list ---------- */
+  const items = [];
+  site.chapters.forEach((c, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="n">' + c.index + '</span><span class="ti">' + c.title +
+      '</span><span class="du">' + fmt(c.duration) + '</span><span class="bar"></span>';
+    li.onclick = () => { load(i, 0); audio.play(); };
+    $('chapters').appendChild(li); items.push(li);
+  });
+  function paintList() {
+    items.forEach((li, i) => {
+      const c = site.chapters[i];
+      li.classList.toggle('cur', i === cur);
+      li.classList.toggle('done', !!state.done[c.slug]);
+      li.querySelector('.n').textContent = state.done[c.slug] ? '✓' : c.index;
+      const t = i === cur ? audio.currentTime || state.times[c.slug] || 0 : state.times[c.slug] || 0;
+      li.querySelector('.bar').style.width = Math.min(100, 100 * t / c.duration) + '%';
+    });
+  }
+
+  /* ---------- figures ---------- */
+  let shownFig = null, manualUntil = 0, wasPlaying = false;
+  const thumbs = {};
+  Object.entries(site.figures).forEach(([name, f]) => {
+    const im = document.createElement('img');
+    im.src = f.src; im.alt = f.title; im.loading = 'lazy';
+    im.onclick = () => { manualUntil = audio.currentTime + 45; showFig(name); };
+    $('figthumbs').appendChild(im); thumbs[name] = im;
+  });
+  function showFig(name) {
+    if (name === shownFig) return;
+    shownFig = name;
+    Object.entries(thumbs).forEach(([n, im]) => im.classList.toggle('on', n === name));
+    const f = site.figures[name];
+    $('figmain').innerHTML = '';
+    const im = document.createElement('img');
+    im.src = f.src; im.alt = f.title;
+    im.onclick = () => openLb(f.src);
+    $('figmain').appendChild(im);
+    $('figtitle').textContent = f.title + ' (tap image to zoom)';
+    $('figcap').style.display = 'flex';
+    stopExplain();
+  }
+  function cueFig() {
+    const c = site.chapters[cur];
+    if (audio.currentTime < manualUntil) return;
+    let want = null;
+    (c.cues || []).forEach(q => { if (audio.currentTime >= q.t) want = q.fig; });
+    if (want) showFig(want);
+  }
+  /* explanation audio: pause narration, play, resume */
+  $('explain').onclick = () => {
+    if (!xaudio.paused) return stopExplain();
+    const f = site.figures[shownFig];
+    if (!f || !f.audio) return;
+    wasPlaying = !audio.paused;
+    audio.pause();
+    xaudio.src = f.audio; xaudio.playbackRate = state.speed; xaudio.play();
+    $('explain').textContent = '■ Stop explanation';
+    $('explain').classList.add('playing');
+  };
+  function stopExplain(resume) {
+    if (!xaudio.paused) xaudio.pause();
+    $('explain').textContent = '▶ Explain this figure';
+    $('explain').classList.remove('playing');
+    if (resume && wasPlaying) audio.play();
+    wasPlaying = false;
+  }
+  xaudio.onended = () => stopExplain(true);
+
+  /* ---------- player ---------- */
+  let cur = -1;
+  function load(i, t) {
+    cur = Math.max(0, Math.min(site.chapters.length - 1, i));
+    const c = site.chapters[cur];
+    audio.src = c.audio;
+    audio.playbackRate = state.speed;
+    if (t) audio.addEventListener('loadedmetadata',
+      () => { audio.currentTime = t; }, { once: true });
+    $('nowtitle').textContent = c.index + '. ' + c.title;
+    state.ch = cur; state.t = t || 0; save(); paintList();
+    manualUntil = 0; shownFig = null;
+    $('figmain').innerHTML = '<div class="ph">Figures appear here as the narration reaches them. Tap a thumbnail anytime.</div>';
+    $('figcap').style.display = 'none';
+    Object.values(thumbs).forEach(im => im.classList.remove('on'));
+    cueFig();
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: c.title, artist: site.title, album: 'Chapter ' + c.index });
+    }
+  }
+  $('prev').onclick = () => { load(cur - 1, 0); audio.play(); };
+  $('next').onclick = () => { load(cur + 1, 0); audio.play(); };
+  const SPEEDS = [1, 1.25, 1.5, 2, 0.8];
+  $('speed').onclick = () => {
+    state.speed = SPEEDS[(SPEEDS.indexOf(state.speed) + 1) % SPEEDS.length] || 1;
+    audio.playbackRate = state.speed; save();
+    $('speed').textContent = state.speed + '×';
+  };
+  $('speed').textContent = state.speed + '×';
+
+  let lastSave = 0;
+  audio.addEventListener('timeupdate', () => {
+    const c = site.chapters[cur];
+    state.times[c.slug] = audio.currentTime; state.t = audio.currentTime;
+    if (audio.currentTime - lastSave > 3 || audio.currentTime < lastSave) {
+      lastSave = audio.currentTime; save(); paintList();
+    }
+    cueFig();
+  });
+  audio.addEventListener('pause', save);
+  audio.addEventListener('ended', () => {
+    const c = site.chapters[cur];
+    state.done[c.slug] = true; state.times[c.slug] = 0; save();
+    if (cur < site.chapters.length - 1) { load(cur + 1, 0); audio.play(); }
+    else paintList();
+  });
+  window.addEventListener('pagehide', save);
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('previoustrack', () => $('prev').onclick());
+    navigator.mediaSession.setActionHandler('nexttrack', () => $('next').onclick());
+    navigator.mediaSession.setActionHandler('seekbackward',
+      () => { audio.currentTime = Math.max(0, audio.currentTime - 15); });
+    navigator.mediaSession.setActionHandler('seekforward',
+      () => { audio.currentTime += 30; });
+  }
+
+  /* resume where you left off */
+  if (state.t > 5 || state.ch > 0) {
+    $('resume').style.display = 'inline-block';
+    $('resume').textContent = '▶ Resume: chapter ' + (state.ch + 1) + ' at ' + fmt(state.t);
+    $('resume').onclick = () => { load(state.ch, state.t); audio.play();
+      $('resume').style.display = 'none'; };
+    load(state.ch, state.t);
+  } else load(0, 0);
+
+  /* ---------- lightbox with pan/zoom ---------- */
+  const lb = $('lb'), img = $('lbimg');
+  let sc = 1, tx = 0, ty = 0, ptrs = new Map(), pinch = null, lastTap = 0;
+  function apply() {
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+  }
+  function fit() {
+    const vw = innerWidth, vh = innerHeight;
+    const s = Math.min(vw / img.naturalWidth, vh / img.naturalHeight) * 0.94;
+    sc = s; tx = (vw - img.naturalWidth * s) / 2; ty = (vh - img.naturalHeight * s) / 2;
+    apply();
+  }
+  function zoomAt(x, y, f) {
+    const ns = Math.max(0.05, Math.min(12, sc * f)); f = ns / sc;
+    tx = x - (x - tx) * f; ty = y - (y - ty) * f; sc = ns; apply();
+  }
+  function openLb(src) {
+    img.src = src; lb.classList.add('open');
+    if (img.complete) fit(); else img.onload = fit;
+  }
+  $('lbclose').onclick = () => lb.classList.remove('open');
+  addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
+  lb.addEventListener('wheel', e => {
+    e.preventDefault(); zoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * 0.002));
+  }, { passive: false });
+  lb.addEventListener('pointerdown', e => {
+    e.preventDefault(); lb.setPointerCapture(e.pointerId);
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (ptrs.size === 2) {
+      const [a, b] = [...ptrs.values()];
+      pinch = { d: Math.hypot(a.x - b.x, a.y - b.y) };
+    } else if (ptrs.size === 1) {
+      const now = Date.now();
+      if (now - lastTap < 300) {
+        if (sc > 1.05 * fitScale()) fit();
+        else zoomAt(e.clientX, e.clientY, 2.5);
+      }
+      lastTap = now;
+    }
+  });
+  function fitScale() {
+    return Math.min(innerWidth / img.naturalWidth, innerHeight / img.naturalHeight) * 0.94;
+  }
+  lb.addEventListener('pointermove', e => {
+    if (!ptrs.has(e.pointerId)) return;
+    const p = ptrs.get(e.pointerId);
+    if (ptrs.size === 1) { tx += e.clientX - p.x; ty += e.clientY - p.y; apply(); }
+    p.x = e.clientX; p.y = e.clientY;
+    if (ptrs.size === 2 && pinch) {
+      const [a, b] = [...ptrs.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      zoomAt((a.x + b.x) / 2, (a.y + b.y) / 2, d / pinch.d);
+      pinch.d = d;
+    }
+  });
+  ['pointerup', 'pointercancel'].forEach(ev => lb.addEventListener(ev, e => {
+    ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch = null;
+  }));
+})();
+</script>
+</body>
+</html>
