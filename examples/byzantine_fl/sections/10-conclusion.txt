@@ -1,0 +1,29 @@
+9 Conclusion
+We present in this paper a novel QUBO-based method for Byzantine-robust ag-
+gregation in FL. We evaluated our approach at two scales: first, a naive QUBO
+formulation using simulated annealing with 15 clients across three datasets; sec-
+ond a Cascaded Dual-QUBO ensemble that used a simple threshold-based rout-
+ing mechanism to process outlier attacks using classical MultiKrum and evasion
+attacks using QA. As the Cascaded Dual-QUBO performance did not improve
+on ALIE, we experimented with a novel MultiSignal ensemble approach.
+We showed that for 15 clients, the QUBO formulation achieves up to 97.78%
+detection accuracy on ALIE on CIFAR-10 and 95.11% on MNIST, with an
+average 8 to 10 percentage-point improvement on the five hardest evasion at-
+tacks across all three datasets (Table 6). The MultiSignal ensemble scales to
+100 clients with 96.73% average detection accuracy, a 4.7 percentage-point im-
+provement, achieving Sparse Lie detection of 95.2%, a 23.2 percentage-point
+improvement, and ALIE of 85.2%, a 4.8 percentage-point improvement. The
+suspicion-penalized QUBO directly counteracts evasion attacks that exploit the
+standard QUBO’s cluster-seeking objective, yielding the largest F1 improvement
+on Sparse Lie.
+Future work will focus on scaling to over 500 clients by leveraging the QA’s
+hybrid solver capacity. We aim to validate the existing method and enhance it as
+needed for mixtures of attacks. We also plan to evaluate wall-clock quantum ad-
+vantage through direct QPU comparison, combining QUBO-based selection with
+quantum embedding of features [7] in a unified quantum pipeline. We wish to ex-
+tend our study to learn routing functions that adapt thresholds to the observed
+gradient distribution and investigate adaptive attacks specifically targeting the
+suspicion-penalized QUBO formulation.
+
+[page 18]
+18 A. Ferenczi et al.

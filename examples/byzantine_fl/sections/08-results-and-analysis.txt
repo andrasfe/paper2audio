@@ -1,0 +1,168 @@
+7 Results and Analysis
+7.1 15 clients FL results
+Table 3 summarizes the average detection accuracy and F1 score for both aggre-
+gators across all 13 attack types for MNIST data. Classical MultiKrum excels
+on nine of 13 attacks such as Gaussian Noise, Scale, Targeted, ALIE, Clustered,
+
+[page 10]
+10 A. Ferenczi et al.
+T able 2.Definitions of metrics used to compare FL performance. TP, FN, TN are
+abbreviations for True Positive, False Negative, and True Negatives respectively. All
+metrics are averaged over the 30 FL rounds.
+Metrics Definitions
+Detection Accuracy (TP+TN)/n
+F1 Score 2TP/(2TP+FP+FN)
+Byzantine Rejection Rate TP/f
+Honest Retention Rate TN/(n−f)
+T able 3.MNIST: Average Detection Accuracy and F1 Score across 30 rounds. Bold
+indicates the better method for each attack.
+Detection Acc. (%) F1 Score (%)
+Attack Classical QUBO Classical QUBO
+Gaussian Noise 100.0060.00 100.000.00
+Sign Flip 60.0071.11 0.0027.78
+Scale 100.0074.67 100.0036.67
+Targeted 100.0086.67 100.0066.67
+Clustered 100.0085.78 100.0064.44
+Same Value 100.0085.78 100.0064.44
+Lie 72.4486.67 31.1166.67
+Blatant Lie 100.0083.11 100.0057.78
+ALIE 81.3395.11 53.3387.78
+Sparse Lie 66.6780.89 16.6752.22
+Label Flip 100.0060.00 100.000.00
+Shuffle 69.3360.00 23.330.00
+Stealthy 100.0082.67 100.0056.67
+Same Value, Blatant Lie, Label Flip, and Stealthy which are easily identifi-
+able by per-client Krum scoring with squared Euclidean distances. In contrast,
+the more subtle Lie attack family, i.e., ALIE is better handled by the QUBO-
+based approach, achieving 95.11% detection accuracy versus 81.33% for classical
+MultiKrum, with an F1 score of 87.78% versus 53.33%. Standard Lie detection
+improves from 72.44% to 86.67% with F1 score increase from 31.11% to 66.67%.
+Sparse Lie accuracy improves from 66.67% to 80.89% with F1 score increas-
+ing from 16.67% to 52.22%. For Sign Flip, classical MultiKrum fails entirely
+with TP = 0 and detection accuracy = 60%, while QUBO formulation using
+simulated annealing achieves TP≈0.83 and a detection accuracy of 71.11%.
+Taken together, these complementary strengths motivate an ensemble method
+as the most effective overall solution. Table 4 presents the corresponding results
+on CIFAR-10, confirming the MNIST findings hold for more complex datasets.
+Table 5 presents FashionMNIST results. Using the same MLP architecture as
+MNIST but with more complex visual features, FashionMNIST closely mirrors
+the MNIST detection pattern, confirming that the complementary strengths are
+robust to gradient landscape complexity within the same architecture.
+
+[page 11]
+Byzantine-Resilient FL via QUBO-Based Client Selection 11
+T able 4.CIFAR-10: Average Detection Accuracy and F1 Score across 30 rounds. Bold
+indicates the better method for each attack.
+Detection Acc. (%) F1 Score (%)
+Attack Classical QUBO Classical QUBO
+Gaussian Noise 100.0060.00 100.000.00
+Sign Flip 61.3370.67 3.3326.67
+Scale 100.0087.11 100.0067.78
+Targeted 100.0096.44 100.0091.11
+Clustered 100.0075.11 100.0037.78
+Same Value 100.0086.67 100.0066.67
+Lie 76.0073.33 40.0033.33
+Blatant Lie 100.0069.33 100.0023.33
+ALIE 75.5697.78 38.8994.44
+Sparse Lie 72.4473.33 31.1133.33
+Label Flip 100.0060.00 100.000.00
+Shuffle 70.2290.67 25.5676.67
+Stealthy 100.0096.00 100.0090.00
+Comparing Tables 3, 4, and 5 reveals that the complementary pattern gen-
+eralizes across all three datasets, with dataset- and architecture-specific effects.
+Table 6 isolates the five evasion attacks where classical MultiKrum falls below
+perfect detection, confirming that the QUBO formalism advantage on these at-
+tacks is consistent across datasets.
+For ALIE, the QUBO advantage is consistent across the three datasets,
+achieving 95.11% on both MNIST and FashionMNIST vs. 81.33% using clas-
+sical MultiKrum, with an even larger gap on CIFAR-10 where we see 97.78%
+vs. 75.56%, a positive 22.2 percent gap. The identical MNIST and FashionM-
+NIST results, despite different data complexity, suggest that the advantage stems
+from the optimization mechanism rather than the data distribution, while the
+larger CIFAR-10 gap is consistent with CNN-based architectures being more
+sensitive to directional changes that cosine distances can capture in the QUBO
+formulation. For the Lie attack, architecture matters as we see QUBO formalism
+outperforms classical MultiKrum on the MLP-based datasets, i.e., MNIST and
+FashionMNIST, but not on CIFAR-10, which is consistent with lower parameter
+dimensionality ( 17K for MNIST and Fashion MNIST vs. 159K for CIFAR-10)
+producing larger per-coordinate shifts that are more detectable by classical Mul-
+tiKrum’s Euclidean scoring. For Shuffle, classical MultiKrum has a slight edge
+on MNIST and FashionMNIST, whereas on CIFAR-10 QUBO performs better
+as shuffling disrupts CNN filter-level coherence. Finally, FashionMNIST closely
+matches MNIST across all attacks, reinforcing that detection performance de-
+pends primarily on model architecture and attack type rather than visual dataset
+complexity.
+Overall, the three-dataset comparison (Table 6) confirms that QUBO-based
+optimization provides its greatest value against attacks that exploit the limita-
+
+[page 12]
+12 A. Ferenczi et al.
+T able 5.FashionMNIST: Average Detection Accuracy and F1 Score across 30 rounds.
+Bold indicates the better method for each attack.
+Detection Acc. (%) F1 Score (%)
+Attack Classical QUBO Classical QUBO
+Gaussian Noise 100.0060.00 100.000.00
+Sign Flip 60.0069.78 0.0024.44
+Scale 100.0060.00 100.000.00
+Targeted 100.0074.22 100.0035.56
+Clustered 100.0073.33 100.0033.33
+Same Value 100.0073.33 100.0033.33
+Lie 74.6786.67 36.6766.67
+Blatant Lie 100.0088.00 100.0070.00
+ALIE 81.3395.11 53.3387.78
+Sparse Lie 65.7878.22 14.4445.56
+Label Flip 100.0060.00 100.000.00
+Shuffle 70.2260.00 25.560.00
+Stealthy 100.0086.22 100.0065.56
+T able 6.Cross-dataset comparison on evasion attacks: Detection Accuracy (%) for
+Classical MultiKrum vs. QUBO. These five attacks are the only ones where classical
+detection falls below 100%. Bold indicates the better method;∆shows the QUBO
+advantage in percentage points.
+MNIST CIF AR-10 F ashionMNIST
+Attack Classical QUBO∆ Classical QUBO∆ Classical QUBO∆
+ALIE 81.3395.11+13.8 75.5697.78+22.2 81.3395.11+13.8
+Lie 72.4486.67+14.2 76.0073.33−2.7 74.6786.67+12.0
+Sparse Lie 66.6780.89+14.2 72.4473.33+0.9 65.7878.22+12.4
+Sign Flip 60.0071.11+11.1 61.3370.67+9.3 60.0069.78+9.8
+Shuffle 69.3360.00−9.3 70.2290.67+20.4 70.2260.00−10.2
+Average (5 attacks) 69.9578.76+8.8 71.1181.16+10.0 70.4077.96+7.6
+tions of per-client distance scoring such as ALIE, Lie, Sparse Lie, and Sign Flip,
+with an average improvement of 8 to 10 percentage points on these five eva-
+sion attacks, consistent across architectures and amplified on structured CNN
+gradient spaces.
+Figures 1, 2, 3, 4, 5, and 6 present round-by-round detection performance on
+MNIST, CIFAR-10, and FashionMNIST on ALIE and Sparse Lie attacks, clearly
+showing the benefits of QUBO formalism versus classical MultiKrum. Notably,
+the very similar curvature of the MNIST and FashionMNIST diagrams suggests
+that the detection is architecture rather than data driven.
+
+[page 13]
+Byzantine-Resilient FL via QUBO-Based Client Selection 13
+Fig. 1.MNIST: Round-by-round detection under ALIE attack.
+Fig. 2.MNIST: Round-by-round detection under Sparse Lie attack.
+7.2 100-Client Hybrid Annealer Results
+Table 7 presents average detection accuracy over 5 rounds at 100 clients on
+MNIST, comparing classical MultiKrum, the initial Cascaded Dual-QUBO en-
+semble, and the MultiSignal ensemble. F1 scores are shown in Table 8.
+The MultiSignal ensemble achieves its most dramatic gain on Sparse Lie with
+95.2% detection accuracy vs. 72.0% in classical MultiKrum, a 23.2 percentage-
+point gain, and vs. 80.0% cascade, a 15.2 percentage-point gain. The suspicion
+penalty is particularly effective here because Sparse Lie modifies only the top
+5% highest-variance coordinates, producing Byzantine gradients that are near-
+identical to honest ones in 95% of dimensions, which is exactly the pattern the
+τs threshold (10th percentile of pairwise distances) is designed to flag.
+ALIE detection accuracy improves from 80.4% in classical MultiKrum and
+80.0% in cascade to 85.2%. The agreement voting mechanism is effective here.
+The suspicion QUBO detects different subsets of Byzantine clients than classi-
+cal MultiKrum, and combining both signals via QUBO-primary voting yields a
+selection better than either method alone.
+Overall, the MultiSignal ensemble achieves 96.73% average detection accu-
+racy versus 92.07% for classical MultiKrum and 93.33% for the cascade, with
+
+[page 14]
+14 A. Ferenczi et al.
+Fig. 3.CIFAR-10: Round-by-round detection under ALIE attack.
+Fig. 4.CIFAR-10: Round-by-round detection under Sparse Lie attack.
+perfect detection on all outlier attacks. The average F1 score improves from
+80.17% using classical MultiKrum to 91.83% using MultiSignal, with the largest
+F1 gain on Sparse Lie from 30.0% to 88.0%.

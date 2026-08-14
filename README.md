@@ -99,17 +99,21 @@ pipeline.synth_sections("project/", "7")
 pipeline.concat("project/", "talk.mp3")
 ```
 
-## Example: the quantum-finance case-studies paper
+## Example: Byzantine-resilient federated learning on quantum annealers
 
-`examples/quantum_finance/` is a complete project for this repository's
-`paper/quantum_finance_case_studies.tex`: a ~52-minute, 7,420-word
-novice-level walkthrough in ten chapters (two primer chapters were added
-by hand-editing the manifest — the intended workflow). The per-section
-MP3s are committed; rebuild any chapter or the full talk offline:
+`examples/byzantine_fl/` is a complete project for the LNCS paper
+*Byzantine-Resilient Federated Learning via QUBO-Based Client Selection
+on Quantum Annealers* (Ferenczi, Samanta, Wang, Qin): a ~81-minute,
+13,800-word novice-level walkthrough in 13 chapters, with 10 synced
+figures — the paper's six round-by-round detection plots extracted from
+the PDF, plus four charts rendered from its result tables and the
+routing-gate diagram. Chapter briefs and titles were hand-edited in the
+manifest (the intended workflow). The per-section MP3s are committed;
+rebuild any chapter or the full talk offline:
 
 ```bash
-paper2audio synth  -d examples/quantum_finance -s 6   # redo one chapter
-paper2audio concat -d examples/quantum_finance        # -> full.mp3
+paper2audio synth  -d examples/byzantine_fl -s 6   # redo one chapter
+paper2audio concat -d examples/byzantine_fl        # -> full.mp3
 ```
 
 ## Web player (GitHub Pages)
@@ -130,7 +134,7 @@ project's per-section MP3s in the browser:
   controls via the Media Session API.
 
 The repository's GitHub Actions workflow (`.github/workflows/pages.yml`)
-assembles the player + the quantum-finance example into a static site and
+assembles the player + the `byzantine_fl` example into a static site and
 deploys it to GitHub Pages on every push to `main` (or manually via *Run
 workflow*). The first run auto-enables Pages; the app is then live at
 `https://<owner>.github.io/<repo>/`.
@@ -144,7 +148,7 @@ npx http-server -p 8000 _site/   # after assembling like the workflow
 
 `site.json` is generated data: chapter list with durations and
 `{t, fig}` cues, plus a figure table (image, title, explanation audio).
-See `examples/quantum_finance/site.json` for the shape.
+See `examples/byzantine_fl/site.json` for the shape.
 
 ## Notes & limitations
 

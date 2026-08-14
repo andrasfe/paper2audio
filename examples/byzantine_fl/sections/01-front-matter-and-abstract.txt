@@ -1,0 +1,49 @@
+[page 1]
+Byzantine-Resilient Federated Learning via
+QUBO-Based Client Selection on Quantum
+Annealers
+Andras Ferenczi1, Sutapa Samanta 1, Dagen Wang1, and Jason Qizhe Qin 2
+1 American Express Co., USA
+2 Columbia University, USA
+Abstract.Federated Learning (FL) is a well-established method for
+training a global model in a decentralized fashion, thus preserving the
+privacy of local data and eliminating the need for large centralized in-
+frastructure. FL at scale runs the risk of malicious updates that can
+impact the global model. To mitigate such risks, a number of Byzantine-
+resilient aggregation methods have been introduced, one of the most
+popular ones being MultiKrum. Whereas this method scores the indi-
+vidual gradients against their nearest neighbors, it can easily miss mali-
+cious updates that preserve the statistical properties of honest updates.
+To mitigate such concerns, we propose a quantum annealing approach
+that reformulates client selection as a Quadratic Unconstrained Binary
+Optimization (QUBO) problem, encoding pairwise distances into a cost
+function solved by quantum annealers (QA). Unlike MultiKrum’s greedy
+per-client scoring, the QUBO formulation jointly optimizes over all pos-
+sible client subsets to find the mutually closest group ofmclients. Our
+experiments at small scale consisting of 15 clients provided promising
+results for the most challenging Byzantine attacks. For example, the
+Advanced LIE attack was detected with 95.11% accuracy with QUBO
+versus 81.33% for classical MultiKrum on an MNIST-trained model and
+97.78% vs. 75.56% on CIFAR-10. Whereas our QUBO method performs
+well against sophisticated attacks, it fares poorly against simpler attacks,
+which are handled well by classical MultiKrum. Our experiments show
+that the two methods complement each other well. Additionally, the
+QUBO method’s quality degrades as we increase the number of clients.
+To address these shortcomings, we introduce a MultiSignal ensemble
+that uses a dual-feature routing gate based on Euclidean and cosine
+Krum score gaps to classify attacks into four regimes and routes eva-
+sion attacks to a suspicion-penalized QUBO with agreement voting. The
+MultiSignal ensemble performs better than classical MultiKrum in all
+our experiments, with 95.3% average detection accuracy versus 91.8%
+for classical. The largest gains are achieved on Sparse Lie, where detec-
+tion accuracy improves from 72.0% to 95.2%, a 23.2 percentage-point
+gain, and on Advanced Lie, where it increases from 80.4% to 85.2%, a
+4.8 percentage-point gain. These results demonstrate that QUBO-based
+quantum annealing with the MultiSignal ensemble is a principled and
+scalable defense against the most challenging Byzantine strategies in fed-
+erated learning.
+
+[page 2]
+2 A. Ferenczi et al.
+Keywords:Federated Learning·Byzantine Robustness·Quantum An-
+nealing·QUBO·MultiKrum·Client Selection

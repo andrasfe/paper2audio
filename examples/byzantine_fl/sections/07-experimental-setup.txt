@@ -1,0 +1,98 @@
+6 Experimental Setup
+6.1 Datasets and Models
+We evaluate on three standard image classification benchmarks. MNIST is the
+handwritten digit dataset consisting of 28×28 grayscale images categorized into
+
+[page 8]
+8 A. Ferenczi et al.
+Algorithm 1MultiSignal Ensemble for Byzantine-Robust Aggregation
+Require:Clients to selectm, thresholdsτ E,τ C, projection dimk
+1:foreach FL roundt= 1,2,...do
+2: BroadcastW t; receive gradientsG 1,...,G n
+3: Project:p i←Project(G i,k) for alli
+4: Compute Euclidean gap∆ E and cosine gap∆ C (Eq. (13))
+5:if∆ E >τ E and∆ C >τ E then
+6:OUTLIER:S←ClassicalMultiKrum(G,m)
+7:else if∆ E≤τ E and∆ C >τ C then
+8:CLUSTERED:S←ClassicalMultiKrum(G,m)
+9:else if∆ E >τ E and∆ C≤τ E then
+10:MAGNITUDE:S←ClassicalMultiKrum(G,m)
+11:else
+12:EV ASION:S c←ClassicalMultiKrum(G,m)
+13: Construct suspicion QUBO (Eqs. (14)–(15))
+14:S q←AnnealSolve(Q susp)
+15:S←AgreementVote(S c,S q,m)
+16:end if
+17:W t+1←W t +η· 1
+|S|
+P
+i∈SGi
+18:end for
+10 classes. This dataset is paired with a fully connected neural network with
+784→200→10 architecture, ReLU activations, and approximately 159K pa-
+rameters. Data is partitioned across clients using non-IID splits. FashionMNIST
+is the Zalando clothing article dataset [20] consists of 28×28 grayscale images
+with 10 classes. This dataset serves as a more challenging drop-in replacement
+for MNIST. CIFAR-10 is the natural image dataset with 32×32 RGB images
+consist of 10 classes. This dataset uses a compact CNN consisting of two convo-
+lutional layers 3→4 and 4→8 channels; 3×3 kernels, and max-pooling, followed
+by two fully connected layers with 512→32→10 architecture, totaling approxi-
+mately 17K parameters. The metrics used to evaluate performance of different
+methods are defined in Table 2.
+6.2 15-Client Configuration
+We use 12 honest and 3 Byzantine clients (n= 15,f= 3) and selectm=n−f=
+12 clients per round. We run 30 FL rounds. Local training uses SGD with learning
+rate 0.01 and weight decay 10−4, and we apply gradient clipping with max norm
+1.0. We use an importance-weighted projection of the gradients with dimension
+k= 1000 and compute distance matrix using cosine distance using Eq. (5). The
+QUBO is solved using the Neal simulated annealing sampler with 1000 reads.
+Classical MultiKrum uses the same importance-weighted projection and squared
+Euclidean distances on projected gradients, withk=n−f−2 = 10 nearest
+neighbors for Krum scoring.
+
+[page 9]
+Byzantine-Resilient FL via QUBO-Based Client Selection 9
+T able 1.Byzantine attack models used in evaluation.
+Attack Byzantine update eGNotes / parameters
+Gaussian
+Noise
+eG∼N(0,α 2I) scaled random noise
+Sign flip eG=−µnegate the honest mean
+Scaling eG=αµ+N(0,0.1 2I) add noise to scaled mean
+Targeted eGj =
+(
+µj + 5σj w.p. 0.1,
+µj otherwise. Modify a random 10% of co-
+ordinates
+Clustered eG=µ+ 2βσ βByzantine clients
+Same Value eG=µ+ 3σidentical shifted updates
+Lie Attack eG=µ−z maxσ z max∈{0.5,1.0,1.5,2.0}
+Blatant Lie eG=µ+dzσ+N(0,η 2I)d∈ {−1,1},z∼
+Uniform(1.75,3.25),η∼
+Uniform(0.1,0.4)×mean(σ)
+Advanced Lie
+(ALIE)
+eGj =
+(
+µj±z large·σ j w.p. 0.2,
+µj otherwise, zlarge ∼Uniform(3,8); 70%
+negative
+Sparse Lie eGj =
+(
+µj−z ext·σ j j∈Top-5%,
+µj otherwise, zext∼Uniform(5,15)
+Label Flipy ′ = (y+ 1) modCtrain on shifted data labels
+Shuffle eG= Shuffle(G honest) permute coordinates ran-
+domly
+Stealthy eG=µ+N(0,0.05 2I) imperceptible noise
+6.3 100-Client QA Hybrid Configuration
+To evaluate scalability, we run a second set of experiments at a larger scale
+with 80 honest clients and 20 Byzantine clients, i.e.,n= 100,f= 20, se-
+lectingm=n−f= 80 clients per round. We use Cascaded Dual-QUBO,
+and MultiSignal ensemble method using the LeapHybridSampler which is hy-
+brid quantum-classical quantum annealer. We perform 5 FL rounds using the
+MNIST dataset. We use a subset of 6 representative Byzantine attacks out of
+13 to limit computational cost both on classical and quantum hardware. We use
+the same importance-weighted projection withk= 1000, and SGD with learn-
+ing rate 0.01. The classical baseline uses the same 100-client configuration with
+standard MultiKrum selection ofk nn =n−f−2 = 78 nearest neighbors.

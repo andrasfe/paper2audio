@@ -1,0 +1,51 @@
+3 Background
+3.1 Federated Learning
+In FL [14],nclients collaboratively train a global model parameterized byW
+under the coordination of a central server. In each roundt, the server broadcasts
+the current modelW t to all clients. Each clientitrains locally on its private
+data and returns a gradient updateG i =W ′
+i−W t. The server aggregates these
+updates and producesW t+1. Assuming there arefByzantine clients out of the
+nreceived by the central server, the goal is to generate a global model that is
+close to a 100% honest aggregation.
+
+[page 4]
+4 A. Ferenczi et al.
+3.2 Krum and MultiKrum
+LetG 1,G 2,...,G n ∈R d be the gradient vectors. The distance between two
+gradients is
+D(Gi,G j) =∥G i−G j∥2.(1)
+For each update, Krum is defined as the sum of distances to itsn−f−2 nearest
+neighbors, i.e.,
+KRUM(Gi) =
+X
+j∈Ni
+∥Gi−G j∥2
+2,(2)
+whereN i is the index set of then−f−2 closest gradients toG i. Krum selects
+Gkrum = arg min
+i
+KRUM(Gi).
+MultiKrum method generalizes Krum by selectingmgradients with the lowest
+Krum scores and averaging them as follows:
+Gmulti = 1
+m
+X
+i∈M
+Gi,M= Top-m{KRUM(G i)}.(3)
+Notably, MultiKrum does not optimize over subsets jointly. Any single Byzantine
+gradient that is close to its neighbors will evade detection.
+3.3 Quantum Annealing and QUBO
+Quantum annealers (QA) [1] are well-suited for optimization problems express-
+ible as QUBO [9]:
+min
+x∈{0,1}n
+X
+i
+Qiixi +
+X
+i<j
+Qijxixj,(4)
+whereQencodes both the objective and constraints. Solving an optimization
+problem encoded as QUBO form of Eq. (4) is equivalent to finding the ground
+state of an Ising Hamiltonian [13].

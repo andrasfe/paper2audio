@@ -1,0 +1,76 @@
+References
+1. Albash, T., Lidar, D.A.: Adiabatic quantum computation and quantum anneal-
+ing. Reviews of Modern Physics90(1), 015002 (2018). https://doi.org/10.1103/
+RevModPhys.90.015002
+2. Baruch, M., Baruch, G., Goldberg, Y.: A little is enough: Circumventing defenses
+for distributed learning (2019)
+3. Blanchard, P., El Mhamdi, E.M., Guerraoui, R., Stainer, J.: Machine learning with
+adversaries: Byzantine tolerant gradient descent. In: Advances in Neural Informa-
+tion Processing Systems 30 (NeurIPS) (2017)
+4. Chen, L., Wang, H., Charles, Z., Papailiopoulos, D.: DRACO: Byzantine-resilient
+distributed training via redundant gradients. In: Proceedings of the 35th Interna-
+tional Conference on Machine Learning (ICML). vol. 80, pp. 903–912 (2018)
+5. El Mhamdi, E.M., Guerraoui, R., Guirguis, A., Rouault, S.: The hidden vulnera-
+bility of distributed learning in byzantium. In: Proceedings of the 1st Conference
+on Machine Learning and Systems (MLSys) (2018)
+6. Feng, C., et al.: Sentinel: An aggregation function to secure decentralized federated
+learning. arXiv preprint arXiv:2310.08097 (2023)
+7. Ferenczi, A., Wang, D., Samanta, S., Hodges, T.: Beyond classical multi-krum:
+Enhancing byzantine detection with quantum embeddings. In: 2025 IEEE Inter-
+national Conference on Quantum Artificial Intelligence (QAI). pp. 49–54. Naples,
+Italy (2025). https://doi.org/10.1109/QAI63978.2025.00015
+8. Kairouz, P., McMahan, H.B., Avent, B., Bellet, A., Bennis, M., et al.: Advances and
+open problems in federated learning. Foundations and Trends in Machine Learning
+14(1–2), 1–210 (2021). https://doi.org/10.1561/2200000083
+9. Kochenberger, G.A., Hao, J.K., Glover, F., Lewis, M., L¨ u, Z., Wang, H., Wang, Y.:
+The Unconstrained Binary Quadratic Programming Problem: A Survey, vol. 222.
+Annals of Operations Research (2014). https://doi.org/10.1007/s10479-014-1685-y
+10. Krizhevsky, A.: Learning multiple layers of features from tiny images. Technical
+report, University of Toronto (2009), https://www.cs.toronto.edu/∼kriz/cifar.html
+11. LeCun, Y., Cortes, C.: MNIST handwritten digit database.
+http://yann.lecun.com/exdb/mnist/ (2010), http://yann.lecun.com/exdb/mnist/
+12. Liu, H.W., Liu, Z.P., Yin, H.L., Chen, Z.B.: Quantum-enhanced blockchain feder-
+ated learning via quantum byzantine agreement. Science China Information Sci-
+ences68(2025). https://doi.org/10.1007/s11432-025-4471-7
+13. Lucas, A.: Ising formulations of many NP problems. Frontiers in Physics2, 5
+(2014). https://doi.org/10.3389/fphy.2014.00005
+14. McMahan, H.B., Moore, E., Ramage, D., Hampson, S., y Arcas, B.A.:
+Communication-efficient learning of deep networks from decentralized data. In:
+Proceedings of the 20th International Conference on Artificial Intelligence and
+Statistics (AISTATS). Proceedings of Machine Learning Research, vol. 54, pp.
+1273–1282 (2017)
+15. Nguyen, T.D., et al.: FLAME: Taming backdoors in federated learning. arXiv
+preprint arXiv:2101.02281 (2021)
+16. Subramanian, G., Chinnadurai, M.: Hybrid quantum enhanced federated learning
+for cyber attack detection. Scientific Reports14, 32038 (2024). https://doi.org/
+10.1038/s41598-024-83682-z
+17. Wei, X., Fan, L., Guo, Y., Gong, Y., Han, Z., Wang, Y.: Hybrid quantum–classical
+benders’ decomposition for federated learning scheduling in distributed networks.
+IEEE Transactions on Network Science and Engineering11(6), 6038–6051 (2024).
+https://doi.org/10.1109/TNSE.2024.3440930
+
+[page 19]
+Byzantine-Resilient FL via QUBO-Based Client Selection 19
+18. Wei, X., Fan, L., Guo, Y., Han, Z., Wang, Y.: Quantum assisted scheduling al-
+gorithm for federated learning in distributed networks. In: 2023 32nd Interna-
+tional Conference on Computer Communications and Networks (ICCCN). pp. 1–10
+(2023). https://doi.org/10.1109/ICCCN58024.2023.10230094
+19. Xia, Q., Tao, Z., Li, Q.: Defending against byzantine attacks in quantum federated
+learning. In: Proceedings of the 17th International Conference on Mobility, Sensing
+and Networking (MSN). pp. 145–152 (2021). https://doi.org/10.1109/MSN53354.
+2021.00035
+20. Xiao, H., Rasul, K., Vollgraf, R.: Fashion-mnist: a novel image dataset for bench-
+marking machine learning algorithms. arXiv preprint arXiv:1708.07747 (2017)
+21. Xu, Y., Lyu, L.: Secure federated learning against model poisoning attacks via
+cosine similarity-based outlier detection. arXiv preprint arXiv:2304.00160 (2023)
+22. Yang, Q., Liu, Y., Chen, T., Tong, Y.: Federated machine learning: Concept and
+applications. ACM Transactions on Intelligent Systems and Technology10(2), 1–
+19 (2019). https://doi.org/10.1145/3298981
+23. Yin, D., Chen, Y., Ramchandran, K., Bartlett, P.: Byzantine-robust distributed
+learning: Towards optimal statistical rates. In: Proceedings of the 35th Interna-
+tional Conference on Machine Learning (ICML). vol. 80, pp. 5650–5659 (2018)
+24. Zhang, Y., Zhang, C., Zhang, C., Fan, L., Zeng, B., Yang, Q.: Federated learning
+with quantum secure aggregation. arXiv preprint arXiv:2207.07444 (2022)
+25. Zhang, Z., Su, Q., Sun, X.: Dim-krum: Backdoor-resistant federated learning for
+NLP with dimension-wise krum-based aggregation. In: Findings of the Association
+for Computational Linguistics: EMNLP 2022. pp. 339–354 (2022)

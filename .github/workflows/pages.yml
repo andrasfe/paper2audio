@@ -25,10 +25,10 @@ jobs:
         run: |
           mkdir -p _site/figures
           cp player/index.html player/sw.js player/manifest.webmanifest player/icon.png _site/
-          cp examples/quantum_finance/site.json _site/
-          cp -r examples/quantum_finance/audio _site/audio
-          cp -r examples/quantum_finance/figures/img _site/figures/img
-          cp -r examples/quantum_finance/figures/audio _site/figures/audio
+          cp examples/byzantine_fl/site.json _site/
+          cp -r examples/byzantine_fl/audio _site/audio
+          cp -r examples/byzantine_fl/figures/img _site/figures/img
+          cp -r examples/byzantine_fl/figures/audio _site/figures/audio
           touch _site/.nojekyll
       - name: Push to gh-pages
         run: |

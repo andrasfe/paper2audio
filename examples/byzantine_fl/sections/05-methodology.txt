@@ -1,0 +1,149 @@
+4 Methodology
+We aim to replace the greedy MultiKrum algorithm with a method that holis-
+tically selects the most optimal subset based on the QUBO objectives and con-
+straints.
+4.1 Step 1: Gradient Dimension Reduction
+The first step is to project a very large gradient vectorsG i ∈R d into a
+lower-dimensional space with dimensionk. We use Importance-Weighted ap-
+proach for this purpose. For each coordinatej, we compute the variance
+vj = Var({G1,j,...,G n,j}) across clients. We then select the top-kcoordinates
+by variance. This preserves dimensions where clients disagree most. Letp i∈R k
+denotes the selected gradient for clientiafter applying such dimension reduction.
+
+[page 5]
+Byzantine-Resilient FL via QUBO-Based Client Selection 5
+4.2 Step 2: Distance Matrix Computation
+Next, we compute a pairwise distance matrixD∈R n×n on the gradients with
+reduced dimension. We use two type of distance computation, cosine and Eu-
+clidean. The cosine distance is computed as follows:
+Dcosine
+ij = 1− pi·p j
+∥pi∥∥p j∥+ϵ ,(5)
+Hereϵ= 10 −8 prevents division by zero. Cosine distance measures directional
+dissimilarity and is invariant to gradient magnitude, making it well-suited for
+detecting attacks that preserve gradient norms but alter directions. The matrix
+is symmetric withD cosine
+ii = 0. One the other hand, the Euclidean distance
+captures the magnitude dissimilarity which is calculated as follows:
+Deuclid
+ij =∥p i−p j∥2.(6)
+For the dual-distance formulation (Section 4.4), the Euclidean matrix is normal-
+ized to [0,1]:
+ˆDeuclid
+ij = Deuclid
+ij
+maxk<lDeuclid
+kl
+.(7)
+4.3 Step 3: QUBO Formulation
+Letx i ∈{0,1}indicates whether clientiis selected. We seek to selectm=
+n−fclients whose projected gradients are mutually closest. Our objective is to
+minimize the total pairwise distance among selected clients, i.e.,
+min
+x∈{0,1}n
+nX
+i=1
+
+
+nX
+j=1
+Dij
+
+xi−2
+X
+i<j
+Dijxixj.(8)
+To enforce exactlymselections, we add a Lagrange penalty of the form:
+λ
+ nX
+i=1
+xi−m
+!2
+,(9)
+whereλis the Lagrange multiplier. We set the valueλ= 10×max i,jDij, en-
+suring the constraint penalty dominates the objective when violated. Expanding
+Eq. (8), and Eq. (9) and using the property of binary variables,x 2
+i =x i, andm 2
+is a constant term, irrelevant to the optimization, the elements of QUBO can be
+written as follows:
+Qii =
+nX
+j=1
+Dij +λ(1−2m),(10)
+Qij =−2D ij + 2λ,fori<j.(11)
+
+[page 6]
+6 A. Ferenczi et al.
+We solve the QUBO using a simulated annealing sampler with 1000 reads
+and extract client indicesSfor small instances. If|S|̸=mwe perform post-
+processing to add or remove clients based on their distance sums to the current
+selection. The global model is updated as:
+Wt+1 =W t +η· 1
+|S|
+X
+i∈S
+Gi.(12)
+4.4 Cascaded Dual-QUBO
+For large client populations (n≥100), the solution above faces scaling issues and
+there is a higher likelihood that Byzantine updates cluster tightly thus confusing
+our optimization algorithm. We attempt to resolve this using a Cascaded Dual-
+QUBO approach. We define Krum score gap∆as follows:
+∆= mini∈Rsi−max j∈Ssj
+std({s1,...,s n}) ,(13)
+whereSandRare the selected and rejected client sets under that metric’s Krum
+scoring, ands i is the Krum score for clienti. We introduce a gap thresholdτ.
+When Euclidean Krum score gap is above this threshold, classical MultiKrum
+is good enough. When the gap is below the threshold, classical method fails.
+In that case we build a QUBO using equal blend of normalized Euclidean and
+cosine distances defined as follows:
+Ddual
+ij =α ˆDeuclid
+ij + (1−α)D cosine
+ij ,(14)
+where ˆDeuclid is the Euclidean distance matrix normalized to [0,1] andα= 0.5.
+Then solve it using BQM hybrid quantum annealing solver.
+4.5 MultiSignal Ensemble
+Our initial Cascaded Dual-QUBO approach for 100 client instances, however,
+did not work for ALIE. We address this concern with MultiSignal ensemble that
+comprises of a dual-feature routing gate, a suspicion-penalized QUBO, and and
+an agreement voting.
+Stage 1: Dual-Feature Routing GateWe compute the normalized Euclidean
+Krum score gap∆ E on full gradients and the normalized cosine Krum score gap
+∆C on importance-weighted projected gradients using Eq. (13). We also define
+cutoffsτ c andτ E for cosine and Euclidean gap respectively. Based on these two
+gap values we categorize the outcomes as follows: (1) Outlier when∆ E > τE
+and∆ C > τE, (2) Clustered when∆ E ≤τ E and∆ C > τC, (3) Magnitude
+when∆ E > τE and∆ C≤τ E, and (4) Evasion when∆ E≤τ E and∆ C≤τ E.
+For the first three categories, classical multi-Kurm works well. For the fourth
+category, both the gaps are low and a suspicion-penalized QUBO with agreement
+
+[page 7]
+Byzantine-Resilient FL via QUBO-Based Client Selection 7
+voting is more beneficial. Based on extensive experimentation we settled with
+τE = 0.2 andτ C = 0.5. In our experiments we were unable to produce Outlier
+and Clustered scenarios. These are hypothetical scenarios for future-proofing our
+system.
+Stage 2: Suspicion-Penalized QUBOWhile the standard QUBO objective
+in Eq. (8) encourages client mutual proximity, it cannot detect ALIE in which
+gradients are extremely close to the honest mean. Suspicion-Penalized QUBO
+discourages selecting pairs of clients whose gradients are suspiciously similar.
+First, we construct a dual distance matrix on importance-weighted projected
+gradients following Eq. (14). The suspicion thresholdτ s isp-th percentile of the
+upper-triangular entries ofD dual, withp= 10. The modified quadratic coeffi-
+cients become:
+Qsusp
+ij =−2D dual
+ij +w s·max(0, τs−D dual
+ij ),(15)
+wherew s = 10.0 is the suspicion weight. For pairs withD dual
+ij <τ s, the penalty
+term overpowers the incentive.
+Stage 3: Agreement VotingIn the evasion regime we run both classical Mul-
+tiKrum and QUBO in parallel. As both Euclidean and cosine gaps are low, clas-
+sical is given a low confidence. We produce four categories:agreed-acceptwhen
+both methods select,agreed-rejectwhen both methods reject,QUBO-onlywhen
+QUBO selects but classical rejects, andclassical-onlywhen classical selects but
+QUBO rejects. A blended rank score based on normalized cosine Krum scores,
+with bonuses for agreed-accept and penalties for agreed-reject and classical-only,
+determines the final selection ofmclients. Algorithm 1 summarizes the complete
+procedure.

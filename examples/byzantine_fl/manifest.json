@@ -1,0 +1,142 @@
+{
+  "paper": "paper.txt",
+  "paper_source": "QNLPAI2026_LNCS_1.pdf",
+  "tts": {
+    "voice": "en-us",
+    "rate": 165,
+    "bitrate": 64,
+    "engine": "piper"
+  },
+  "sections": [
+    {
+      "index": 1,
+      "slug": "01-welcome-and-overview",
+      "title": "Welcome and overview",
+      "brief": "Greet the listener, state what the course covers, and give the one-paragraph version of the paper: MultiKrum's blind spot, the QUBO reformulation, and the MultiSignal ensemble that reaches 96.73 percent at 100 clients.",
+      "words": 630,
+      "source": "sections/01-front-matter-and-abstract.txt",
+      "script": "scripts/01-welcome-and-overview.txt",
+      "audio": "audio/01-welcome-and-overview.mp3"
+    },
+    {
+      "index": 2,
+      "slug": "02-federated-learning-and-the-byzantine-problem",
+      "title": "Federated learning and the Byzantine problem",
+      "brief": "Primer: what federated learning is, what a gradient update is, why the server never sees the data, and what a Byzantine client can do with that arrangement. The threat model, n and f, and what 'detection' means here.",
+      "words": 843,
+      "source": "sections/02-introduction.txt",
+      "script": "scripts/02-federated-learning-and-the-byzantine-problem.txt",
+      "audio": "audio/02-federated-learning-and-the-byzantine-problem.mp3"
+    },
+    {
+      "index": 3,
+      "slug": "03-krum-and-multikrum",
+      "title": "Krum, MultiKrum, and the blind spot",
+      "brief": "The classical defense in full: pairwise Euclidean distances, the Krum score over the n minus f minus 2 nearest neighbours, MultiKrum's top-m selection, why greedy per-client scoring is fast and robust to outliers, and exactly where it goes blind. Related work in brief.",
+      "words": 1055,
+      "source": "sections/03-related-work.txt",
+      "script": "scripts/03-krum-and-multikrum.txt",
+      "audio": "audio/03-krum-and-multikrum.mp3"
+    },
+    {
+      "index": 4,
+      "slug": "04-the-attack-zoo",
+      "title": "The attack zoo: thirteen ways to lie",
+      "brief": "Table 1 read aloud and explained: the outlier-producing family (Gaussian noise, scale, sign flip, targeted, clustered, same value, blatant lie, label flip, stealthy) versus the evasion family (Lie, Advanced Lie, Sparse Lie, shuffle), with the mean-and-sigma construction behind each.",
+      "words": 1061,
+      "source": "sections/06-byzantine-attack-models.txt",
+      "script": "scripts/04-the-attack-zoo.txt",
+      "audio": "audio/04-the-attack-zoo.mp3"
+    },
+    {
+      "index": 5,
+      "slug": "05-primer-qubo-and-quantum-annealing",
+      "title": "Primer: QUBO and quantum annealing",
+      "brief": "From scratch: binary variables, quadratic objectives, why 'unconstrained' matters, the energy landscape picture, the Ising equivalence, what a quantum annealer physically does, simulated annealing versus hybrid solvers, and what today's hardware can and cannot hold.",
+      "words": 1159,
+      "source": "sections/04-background.txt",
+      "script": "scripts/05-primer-qubo-and-quantum-annealing.txt",
+      "audio": "audio/05-primer-qubo-and-quantum-annealing.mp3"
+    },
+    {
+      "index": 6,
+      "slug": "06-building-the-qubo",
+      "title": "Building the QUBO: from gradients to a cost matrix",
+      "brief": "The three methodology steps at full resolution: importance-weighted dimension reduction to k equals 1000, cosine and Euclidean distance matrices, the mutual-closeness objective, the Lagrange penalty and the derivation of the diagonal and off-diagonal QUBO coefficients, the 1000-read solve, post-processing, and the model update.",
+      "words": 1299,
+      "source": "sections/05-methodology.txt",
+      "script": "scripts/06-building-the-qubo.txt",
+      "audio": "audio/06-building-the-qubo.mp3"
+    },
+    {
+      "index": 7,
+      "slug": "07-scaling-up-cascaded-dual-qubo",
+      "title": "Scaling up: the Cascaded Dual-QUBO",
+      "brief": "Why the plain QUBO degrades past about 100 clients, the Krum score gap statistic, the threshold that routes easy rounds to classical MultiKrum, the blended dual-distance matrix with alpha equal to one half, the hybrid annealing solver, and the honest result that it did not help on Advanced Lie.",
+      "words": 909,
+      "source": "sections/05-methodology.txt",
+      "script": "scripts/07-scaling-up-cascaded-dual-qubo.txt",
+      "audio": "audio/07-scaling-up-cascaded-dual-qubo.mp3"
+    },
+    {
+      "index": 8,
+      "slug": "08-the-multisignal-ensemble",
+      "title": "The MultiSignal ensemble",
+      "brief": "The three stages in detail: the dual-feature routing gate and its four regimes with the two cutoffs, the suspicion-penalized QUBO with its percentile threshold and suspicion weight, agreement voting with its four verdict categories and blended rank score, and Algorithm 1 walked line by line.",
+      "words": 1209,
+      "source": "sections/05-methodology.txt",
+      "script": "scripts/08-the-multisignal-ensemble.txt",
+      "audio": "audio/08-the-multisignal-ensemble.mp3"
+    },
+    {
+      "index": 9,
+      "slug": "09-experimental-setup",
+      "title": "How the experiments were run",
+      "brief": "Datasets and models, the non-identically-distributed splits, the 15-client configuration with its 30 rounds and simulated annealer, the 100-client hybrid configuration with 5 rounds and six attacks, and the four metrics defined in Table 2 with what each one hides.",
+      "words": 940,
+      "source": "sections/07-experimental-setup.txt",
+      "script": "scripts/09-experimental-setup.txt",
+      "audio": "audio/09-experimental-setup.mp3"
+    },
+    {
+      "index": 10,
+      "slug": "10-results-at-15-clients",
+      "title": "Results at 15 clients: a tale of two families",
+      "brief": "Tables 3, 4 and 5 read as one story: where classical MultiKrum is perfect, where QUBO wins and by how much, the F1 scores that expose the 60 percent floor, the cross-dataset evasion table, and the architecture effects on Lie and shuffle.",
+      "words": 1233,
+      "source": "sections/08-results-and-analysis.txt",
+      "script": "scripts/10-results-at-15-clients.txt",
+      "audio": "audio/10-results-at-15-clients.mp3"
+    },
+    {
+      "index": 11,
+      "slug": "11-reading-the-round-by-round-figures",
+      "title": "Reading the round-by-round figures",
+      "brief": "Figures 1 through 6 walked through: what a round-by-round detection trace shows that an average hides, the sawtooth of classical MultiKrum under Advanced Lie, the flat orange lines on Sparse Lie, and why MNIST and FashionMNIST have nearly identical curvature.",
+      "words": 949,
+      "source": "sections/08-results-and-analysis.txt",
+      "script": "scripts/11-reading-the-round-by-round-figures.txt",
+      "audio": "audio/11-reading-the-round-by-round-figures.mp3"
+    },
+    {
+      "index": 12,
+      "slug": "12-results-at-100-clients",
+      "title": "Results at 100 clients: the ensemble pays off",
+      "brief": "Tables 7 and 8: the cascade's flat result, the MultiSignal ensemble's 23.2-point gain on Sparse Lie and 4.8-point gain on Advanced Lie, the F1 story that is larger than the accuracy story, and why the suspicion threshold is exactly the right instrument for Sparse Lie.",
+      "words": 1037,
+      "source": "sections/08-results-and-analysis.txt",
+      "script": "scripts/12-results-at-100-clients.txt",
+      "audio": "audio/12-results-at-100-clients.mp3"
+    },
+    {
+      "index": 13,
+      "slug": "13-why-they-differ-costs-limits-and-conclusions",
+      "title": "Why the methods differ, what they cost, and what is left undone",
+      "brief": "The mechanism section: magnitude versus direction, why architecture matters, why annealing itself can fail on scattered gradients; the complexity analysis for all four methods; the limitations including mixed attacks and the paranoid-mode proposal; the conclusion and the future work; and a closing summary for the listener.",
+      "words": 1487,
+      "source": "sections/09-discussion.txt",
+      "script": "scripts/13-why-they-differ-costs-limits-and-conclusions.txt",
+      "audio": "audio/13-why-they-differ-costs-limits-and-conclusions.mp3"
+    }
+  ]
+}

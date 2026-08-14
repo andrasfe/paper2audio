@@ -1,0 +1,9 @@
+5 Byzantine Attack Models
+We evaluate against 13 distinct Byzantine attack strategies listed in Table 1.
+Letµandσdenote the coordinate-wise mean and standard deviation of honest
+client gradients. LetG i denote an honest gradient and eGdenotes the Byzantine
+update crafted from (µ,σ).
+These attacks range from easily detectable outlier-producing strategies like
+Gaussian Noise and Scale to sophisticated methods specifically designed to evade
+distance-based defenses like Lie family and data poisoning Label Flip, providing
+a comprehensive evaluation of robustness.

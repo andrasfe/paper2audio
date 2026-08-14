@@ -1,0 +1,25 @@
+2 Related Work
+Krum [3] selected the gradient that had its Euclidean distance closest to the
+rest. MultiKrum [5] extended the selection tomclients. The paper [23] used
+coordinate-wise median and trimmed-mean estimators. DRACO [4] used redun-
+dant gradient computation for resilience. FLAME [15] uses cosine-based clus-
+tering for backdoor defense, Sentinel [6] combines cosine similarity filtering with
+bootstrap loss validation and normalization, and CosDefense [21] detects outliers
+via directional similarity. Dim-Krum [25] applied Krum dimension-wise for NLP
+tasks. All of these classical solutions compute local or per-dimension optimiza-
+tion rather than global subset selection.
+Wei et al. [17] used Bender’s decomposition framework to optimize FL
+scheduling in a distributed network. The same authors also applied quantum
+annealing to FL resource scheduling in [18]. Liu et al. [12] proposed a quantum
+Byzantine agreement protocol for blockchain-based federated learning. Zhang
+et al. [24] used quantum key distribution to protect gradient updates. The
+paper [19] tackled a scenario in which Byzantine participants send random or
+maliciously crafted unitaries. Subramanian and Chinnadurai [16] investigated
+the benefits of hybrid quantum-classical models when it comes to robustness in
+the face of adversarial updates.
+In our prior work [7], we proposed using parameterized quantum circuits
+(Pauli feature maps) to embed projected gradients into a quantum Hilbert space,
+where inner products yield a quantum kernel matrix for Byzantine detection. We
+demonstrated improved detection of Byzantine updates by performing dimen-
+sionality reduction followed by projection into Hilbert space by means of feature
+maps.
